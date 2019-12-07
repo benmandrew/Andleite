@@ -61,3 +61,19 @@ SDL_Surface* Creature::getSurface() {
     return surface;
 }
 
+void Creature::onNotify(int event) {
+    switch (event) {
+        case KEY_UP:
+            printf("Up\n");
+            break;
+        case KEY_DOWN:
+            printf("Down\n");
+            break;
+        case KEY_LEFT:
+            printf("Left\n");
+            break;
+        case KEY_RIGHT:
+            printf("Right\n");
+            break;
+    }
+}

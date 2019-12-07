@@ -12,15 +12,13 @@ const std::string SLIME_BMP_PATH = "./resources/slime.bmp";
 
 void mainLoop(
     Window* window,
+    Input* input,
     Creature* player) {
     bool quit = false;
     SDL_Event e;
     while (!quit) {
-        while (SDL_PollEvent(&e) != 0) {
-            if (e.type == SDL_QUIT) {
-                quit = true;
-            }
-        }
+        input->pollEvents();
+        quit = input->doQuit();
         window->blit(player);
         window->flip();
     }
@@ -28,16 +26,19 @@ void mainLoop(
 
 int main(int argc, char* args[]) {
     Window* window = new Window();
+    Input* input = new Input();
     Creature* player = new Creature();
+
+    input->addObserver(player);
+
     if (!window->init(SCREEN_WIDTH, SCREEN_HEIGHT)) {
         printf("Failed to initialise!\n");
     } else {
-
         player->loadBMP(SLIME_BMP_PATH);
-
-        mainLoop(window, player);
+        mainLoop(window, input, player);
     }
     delete window;
+    delete input;
     delete player;
     SDL_Quit();
     return 0;
