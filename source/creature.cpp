@@ -4,9 +4,12 @@ SDL_PixelFormat* Creature::pixelFormat = NULL;
 
 Creature::Creature() {
     changedPos = false;
-    x, y = 0;
-    posRect.x, posRect.y = 0;
-    posRect.w, posRect.h = TILE_SIZE;
+    x = 0;
+    y = 0;
+    posRect.x = 0;
+    posRect.y = 0;
+    posRect.w = TILE_SIZE;
+    posRect.h = TILE_SIZE;
 }
 
 Creature::~Creature() {

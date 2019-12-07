@@ -22,7 +22,7 @@ void mainLoop(
             }
         }
         window->blit(player);
-        window->update();
+        window->flip();
     }
 }
 

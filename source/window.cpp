@@ -45,7 +45,7 @@ void Window::blit(Creature* creature) {
         creature->getPosRect());
 }
 
-void Window::update() {
+void Window::flip() {
     SDL_UpdateWindowSurface(window);
 }
 

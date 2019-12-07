@@ -12,7 +12,7 @@ public:
     bool init(int screen_width, int screen_height);
 
     void blit(Creature* creature);
-    void update();
+    void flip();
 
     SDL_PixelFormat* getPixelFormat();
 };
