@@ -2,10 +2,7 @@
 #include <string>
 
 #include "input.h"
-
-constexpr static int TILE_SIZE = 32;
-constexpr static int TILE_NUM_X = 20;
-constexpr static int TILE_NUM_Y = 15;
+#include "constants.h"
 
 class Creature : public Observer {
 private:

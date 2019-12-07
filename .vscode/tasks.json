@@ -18,6 +18,7 @@
                 "${workspaceFolder}/source/input.h",
                 "${workspaceFolder}/source/observer.cpp",
                 "${workspaceFolder}/source/observer.h",
+                "${workspaceFolder}/source/constants.h",
                 "-w",
                 "-lSDL2",
                 "-o",

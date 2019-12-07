@@ -4,12 +4,6 @@
 
 #include "window.h"
 
-constexpr int SCREEN_WIDTH = 640;
-constexpr int SCREEN_HEIGHT = 480;
-
-const std::string PLAYER_BMP_PATH = "./resources/player.bmp";
-const std::string SLIME_BMP_PATH = "./resources/slime.bmp";
-
 void mainLoop(
     Window* window,
     Input* input,
@@ -35,7 +29,7 @@ int main(int argc, char* args[]) {
     if (!window->init(SCREEN_WIDTH, SCREEN_HEIGHT)) {
         printf("Failed to initialise!\n");
     } else {
-        player->loadBMP(SLIME_BMP_PATH);
+        player->loadBMP(PLAYER_BMP_PATH);
         mainLoop(window, input, player);
     }
     delete window;
