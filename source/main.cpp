@@ -7,14 +7,12 @@
 constexpr int SCREEN_WIDTH = 640;
 constexpr int SCREEN_HEIGHT = 480;
 
-void close(SDL_Surface* player) {
-    SDL_FreeSurface(player);
-    player = NULL;
-}
+const std::string PLAYER_BMP_PATH = "./resources/player.bmp";
+const std::string SLIME_BMP_PATH = "./resources/slime.bmp";
 
 void mainLoop(
     Window* window,
-    SDL_Surface* player) {
+    Creature* player) {
     bool quit = false;
     SDL_Event e;
     while (!quit) {
@@ -23,24 +21,24 @@ void mainLoop(
                 quit = true;
             }
         }
-        window.blit(player, &stretchRect);
-        window.update();
+        window->blit(player);
+        window->update();
     }
 }
 
 int main(int argc, char* args[]) {
-
     Window* window = new Window();
-    Creature player;
+    Creature* player = new Creature();
     if (!window->init(SCREEN_WIDTH, SCREEN_HEIGHT)) {
         printf("Failed to initialise!\n");
     } else {
-        if (!loadMedia("./resources/slime.bmp", pPlayer, window->getPixelFormat())) {
-            printf("Failed to load media!\n");
-        } else {
-            mainLoop(window, *pPlayer);
-        }
+
+        player->loadBMP(SLIME_BMP_PATH);
+
+        mainLoop(window, player);
     }
-    close(*pPlayer);
+    delete window;
+    delete player;
+    SDL_Quit();
     return 0;
 }

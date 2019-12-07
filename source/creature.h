@@ -1,7 +1,7 @@
 #include <SDL2/SDL.h>
 #include <string>
 
-constexpr static int TILE_SIZE = 16;
+constexpr static int TILE_SIZE = 32;
 constexpr static int HALF_TILE_SIZE = TILE_SIZE / 2;
 
 class Creature {
@@ -14,13 +14,13 @@ private:
     SDL_Surface* surface;
 
     void updateTilePos();
-    void loadBMP(std::string path);
 public:
     Creature();
     ~Creature();
 
     static void setPixelFormat(SDL_PixelFormat* fmt);
 
+    void loadBMP(std::string path);
     SDL_Rect* getPosRect();
     SDL_Surface* getSurface();
 };

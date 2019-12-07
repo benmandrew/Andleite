@@ -7,7 +7,6 @@ Window::Window() {
 Window::~Window() {
     SDL_DestroyWindow(window);
     window = NULL;
-    SDL_Quit();
 }
 
 bool Window::init(int screen_width, int screen_height) {

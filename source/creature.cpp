@@ -1,10 +1,17 @@
 #include "creature.h"
 
+SDL_PixelFormat* Creature::pixelFormat = NULL;
+
 Creature::Creature() {
     changedPos = false;
     x, y = 0;
     posRect.x, posRect.y = 0;
     posRect.w, posRect.h = TILE_SIZE;
+}
+
+Creature::~Creature() {
+    SDL_FreeSurface(surface);
+    surface = NULL;
 }
 
 void Creature::updateTilePos() {
@@ -17,7 +24,7 @@ void Creature::loadBMP(std::string path) {
     if (loadedSurface == NULL) {
         printf(
             "Unable to load image %s! SDL Error: %s\n",
-            "player.bmp",
+            path.c_str(),
             SDL_GetError());
     } else {
         surface = SDL_ConvertSurface(
@@ -28,7 +35,7 @@ void Creature::loadBMP(std::string path) {
             printf(
                 "Unable to optimize image %s! SDL Error: %s\n",
                 path.c_str(),
-                SDL_GetError() );
+                SDL_GetError());
 		}
         SDL_FreeSurface(loadedSurface);
         loadedSurface = NULL;
