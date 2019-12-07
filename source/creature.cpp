@@ -17,6 +17,16 @@ Creature::~Creature() {
     surface = NULL;
 }
 
+void Creature::moveX(int dx) {
+    x = (x + dx + TILE_NUM_X) % TILE_NUM_X;
+    changedPos = true;
+}
+
+void Creature::moveY(int dy) {
+    y = (y + dy + TILE_NUM_Y) % TILE_NUM_Y;
+    changedPos = true;
+}
+
 void Creature::updateTilePos() {
     posRect.x = x * TILE_SIZE;
     posRect.y = y * TILE_SIZE;
@@ -64,16 +74,16 @@ SDL_Surface* Creature::getSurface() {
 void Creature::onNotify(int event) {
     switch (event) {
         case KEY_UP:
-            printf("Up\n");
+            moveY(-1);
             break;
         case KEY_DOWN:
-            printf("Down\n");
+            moveY(1);
             break;
         case KEY_LEFT:
-            printf("Left\n");
+            moveX(-1);
             break;
         case KEY_RIGHT:
-            printf("Right\n");
+            moveX(1);
             break;
     }
 }

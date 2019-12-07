@@ -13,6 +13,7 @@ public:
 
     void blit(Creature* creature);
     void flip();
+    void clear();
 
     SDL_PixelFormat* getPixelFormat();
 };

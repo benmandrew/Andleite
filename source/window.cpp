@@ -49,6 +49,10 @@ void Window::flip() {
     SDL_UpdateWindowSurface(window);
 }
 
+void Window::clear() {
+    SDL_FillRect(screenSurface, NULL, 0x000000);
+}
+
 SDL_PixelFormat* Window::getPixelFormat() {
     return screenSurface->format;
 }

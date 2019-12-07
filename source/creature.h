@@ -4,6 +4,8 @@
 #include "input.h"
 
 constexpr static int TILE_SIZE = 32;
+constexpr static int TILE_NUM_X = 20;
+constexpr static int TILE_NUM_Y = 15;
 
 class Creature : public Observer {
 private:
@@ -13,6 +15,9 @@ private:
     int x, y;
     SDL_Rect posRect;
     SDL_Surface* surface;
+
+    void moveX(int dx);
+    void moveY(int dy);
 
     void updateTilePos();
 public:

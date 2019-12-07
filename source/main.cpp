@@ -19,6 +19,7 @@ void mainLoop(
     while (!quit) {
         input->pollEvents();
         quit = input->doQuit();
+        window->clear();
         window->blit(player);
         window->flip();
     }
