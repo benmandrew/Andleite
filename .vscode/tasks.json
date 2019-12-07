@@ -10,8 +10,10 @@
             "args": [
                 "-g",
                 "${file}",
+                "-w",
+                "-lSDL2",
                 "-o",
-                "${fileDirname}/${fileBasenameNoExtension}"
+                "${workspaceFolder}/build/${fileBasenameNoExtension}"
             ],
             "problemMatcher": [
                 "$gcc"
