@@ -9,11 +9,13 @@
             "command": "g++",
             "args": [
                 "-g",
-                "${file}",
+                "${workspaceFolder}/source/main.cpp",
+                "${workspaceFolder}/source/window.cpp",
+                "${workspaceFolder}/source/window.h",
                 "-w",
                 "-lSDL2",
                 "-o",
-                "${workspaceFolder}/build/${fileBasenameNoExtension}"
+                "${workspaceFolder}/build/main"
             ],
             "problemMatcher": [
                 "$gcc"
