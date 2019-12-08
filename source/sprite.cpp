@@ -3,10 +3,7 @@
 SDL_PixelFormat* Sprite::pixelFormat = NULL;
 
 Sprite::Sprite() {
-    posRect.x = 0;
-    posRect.y = 0;
-    posRect.w = TILE_SIZE;
-    posRect.h = TILE_SIZE;
+    posRect = {0, 0, TILE_SIZE, TILE_SIZE};
 }
 
 Sprite::~Sprite() {

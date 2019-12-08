@@ -36,11 +36,7 @@ void Map::generateMap() {
 
 void Map::blitMap() {
     Sprite* currentTileSprite;
-    SDL_Rect posRect;
-    posRect.x = 0;
-    posRect.y = 0;
-    posRect.w = TILE_SIZE;
-    posRect.h = TILE_SIZE;
+    SDL_Rect posRect = {0, 0, TILE_SIZE, TILE_SIZE};
     for (int x = 0; x < TILE_NUM_X; x++) {
         for (int y = 0; y < TILE_NUM_Y; y++) {
             if (grid[x][y] == wall) {
