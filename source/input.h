@@ -1,3 +1,5 @@
+#pragma once
+
 #include <map>
 #include <SDL2/SDL.h>
 #include "observer.h"

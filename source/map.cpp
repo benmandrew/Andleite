@@ -4,7 +4,10 @@ Sprite* Map::wallSprite = new Sprite();
 Sprite* Map::openSprite = new Sprite();
 
 Map::Map() {
-
+    mapPosRect.x = 0;
+    mapPosRect.y = 0;
+    mapPosRect.w = SCREEN_WIDTH;
+    mapPosRect.h = SCREEN_HEIGHT;
 }
 
 Map::~Map() {
@@ -18,12 +21,15 @@ void Map::init() {
 
     mapSurface = SDL_CreateRGBSurface(
         0, SCREEN_WIDTH, SCREEN_HEIGHT, 32, 0, 0, 0, 0);
+
+    generateMap();
+    blitMap();
 }
 
 void Map::generateMap() {
     for (int x = 0; x < TILE_NUM_X; x++) {
         for (int y = 0; y < TILE_NUM_Y; y++) {
-            grid[x][y] = wall;
+            grid[x][y] = (Tile)((x + (y % 2)) % 2);
         }
     }
 }
@@ -53,4 +59,12 @@ void Map::blitMap() {
 
         }
     }
+}
+
+SDL_Rect* Map::getRect() {
+    return &mapPosRect;
+}
+
+SDL_Surface* Map::getSurface() {
+    return mapSurface;
 }

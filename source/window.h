@@ -1,3 +1,5 @@
+#pragma once
+
 #include <SDL2/SDL.h>
 #include "creature.h"
 
@@ -12,6 +14,7 @@ public:
     bool init(int screen_width, int screen_height);
 
     void blit(Sprite* sprite);
+    void blit(SDL_Surface* surface, SDL_Rect* rect);
     void flip();
     void clear();
 

@@ -45,6 +45,14 @@ void Window::blit(Sprite* sprite) {
         sprite->getPosRect());
 }
 
+void Window::blit(SDL_Surface* surface, SDL_Rect* rect) {
+    SDL_BlitScaled(
+        surface,
+        NULL,
+        screenSurface,
+        rect);
+}
+
 void Window::flip() {
     SDL_UpdateWindowSurface(window);
 }

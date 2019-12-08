@@ -8,6 +8,7 @@
 void mainLoop(
     Window* window,
     Input* input,
+    Map* map,
     Creature* player) {
     bool quit = false;
     SDL_Event e;
@@ -15,6 +16,7 @@ void mainLoop(
         input->pollEvents();
         quit = input->doQuit();
         window->clear();
+        window->blit(map->getSurface(), map->getRect());
         window->blit(player->getSprite());
         window->flip();
     }
@@ -29,8 +31,9 @@ int main(int argc, char* args[]) {
     if (!window->init(SCREEN_WIDTH, SCREEN_HEIGHT)) {
         printf("Failed to initialise!\n");
     } else {
+        map->init();
         player->init(PLAYER_BMP_PATH);
-        mainLoop(window, input, player);
+        mainLoop(window, input, map, player);
     }
     delete window;
     delete input;

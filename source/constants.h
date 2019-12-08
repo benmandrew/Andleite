@@ -1,3 +1,5 @@
+#pragma once
+
 #include <string>
 
 constexpr int SCREEN_WIDTH = 1280;
