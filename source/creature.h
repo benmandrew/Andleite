@@ -2,30 +2,22 @@
 #include <string>
 
 #include "input.h"
-#include "constants.h"
+#include "sprite.h"
 
 class Creature : public Observer {
 private:
-    static SDL_PixelFormat* pixelFormat;
-
     bool changedPos;
     int x, y;
-    SDL_Rect posRect;
-    SDL_Surface* surface;
+    Sprite* sprite;
 
     void moveX(int dx);
     void moveY(int dy);
-
-    void updateTilePos();
 public:
     Creature();
     ~Creature();
 
-    static void setPixelFormat(SDL_PixelFormat* fmt);
-
-    void loadBMP(std::string path);
-    SDL_Rect* getPosRect();
-    SDL_Surface* getSurface();
+    void init(std::string spritePath);
+    Sprite* getSprite();
 
     void onNotify(int event);
 };

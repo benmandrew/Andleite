@@ -8,6 +8,7 @@
             "label": "Build",
             "command": "g++",
             "args": [
+                "-Wall",
                 "-g",
                 "${workspaceFolder}/source/main.cpp",
                 "${workspaceFolder}/source/window.cpp",
@@ -18,6 +19,10 @@
                 "${workspaceFolder}/source/input.h",
                 "${workspaceFolder}/source/observer.cpp",
                 "${workspaceFolder}/source/observer.h",
+                "${workspaceFolder}/source/sprite.cpp",
+                "${workspaceFolder}/source/sprite.h",
+                "${workspaceFolder}/source/map.cpp",
+                "${workspaceFolder}/source/map.h",
                 "${workspaceFolder}/source/constants.h",
                 "-w",
                 "-lSDL2",

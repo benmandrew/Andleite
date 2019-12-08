@@ -11,7 +11,7 @@ public:
     ~Window();
     bool init(int screen_width, int screen_height);
 
-    void blit(Creature* creature);
+    void blit(Sprite* sprite);
     void flip();
     void clear();
 

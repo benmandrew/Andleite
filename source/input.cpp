@@ -1,6 +1,6 @@
 #include "input.h"
 
-const std::map<SDL_Keycode, InputEvents> Input::inputMap
+const std::map<SDL_Keycode, InputEvent> Input::inputMap
     = Input::createMap();
 
 void Input::pollEvents() {

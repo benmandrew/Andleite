@@ -3,6 +3,7 @@
 #include <string>
 
 #include "window.h"
+#include "map.h"
 
 void mainLoop(
     Window* window,
@@ -14,7 +15,7 @@ void mainLoop(
         input->pollEvents();
         quit = input->doQuit();
         window->clear();
-        window->blit(player);
+        window->blit(player->getSprite());
         window->flip();
     }
 }
@@ -22,14 +23,13 @@ void mainLoop(
 int main(int argc, char* args[]) {
     Window* window = new Window();
     Input* input = new Input();
+    Map* map = new Map();
     Creature* player = new Creature();
-
     input->addObserver(player);
-
     if (!window->init(SCREEN_WIDTH, SCREEN_HEIGHT)) {
         printf("Failed to initialise!\n");
     } else {
-        player->loadBMP(PLAYER_BMP_PATH);
+        player->init(PLAYER_BMP_PATH);
         mainLoop(window, input, player);
     }
     delete window;

@@ -31,18 +31,18 @@ bool Window::init(int screen_width, int screen_height) {
             success = false;
         } else {
             screenSurface = SDL_GetWindowSurface(window);
-            Creature::setPixelFormat(getPixelFormat());
+            Sprite::setPixelFormat(getPixelFormat());
         }
     }
     return success;
 }
 
-void Window::blit(Creature* creature) {
+void Window::blit(Sprite* sprite) {
     SDL_BlitScaled(
-        creature->getSurface(),
+        sprite->getSurface(),
         NULL,
         screenSurface,
-        creature->getPosRect());
+        sprite->getPosRect());
 }
 
 void Window::flip() {

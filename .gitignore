@@ -31,8 +31,7 @@
 *.out
 *.app
 
-# VSCODE
-
+# VSCode
 .vscode/*
 !.vscode/settings.json
 !.vscode/tasks.json
