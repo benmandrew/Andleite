@@ -10,10 +10,14 @@ enum Tile {
     wall, open
 };
 
+enum Direction {
+    north, east, south, west
+};
+
 struct Room {
     int x0, y0, x1, y1;
 
-    bool collidesWith(Room other);
+    bool collidesWith(const Room other) const ;
 };
 
 class Map {
@@ -30,6 +34,11 @@ private:
     void generateRooms();
     void generateRoom(
         int x0, int y0, int x1, int y1);
+    void generateCorridor(int startX, int startY);
+
+    bool adjacentToOpen(
+        const int x, const int y, const Direction dir) const;
+
     void blitMap();
 public:
     Map();
@@ -37,5 +46,5 @@ public:
 
     void init();
     SDL_Rect* getRect();
-    SDL_Surface* getSurface();
+    SDL_Surface* getSurface() const;
 };
