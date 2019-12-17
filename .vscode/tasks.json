@@ -23,6 +23,8 @@
                 "${workspaceFolder}/source/sprite.h",
                 "${workspaceFolder}/source/map.cpp",
                 "${workspaceFolder}/source/map.h",
+                "${workspaceFolder}/source/vec2.cpp",
+                "${workspaceFolder}/source/vec2.h",
                 "${workspaceFolder}/source/constants.h",
                 "-w",
                 "-lSDL2",

@@ -1,35 +1,51 @@
 #include "map.h"
 
+#include <string>
+#include <iostream>
+
 constexpr int nAdjOffsets = 8;
 constexpr int nAdjOffsetsDir = 3;
 
-int adjOffsets[][2] = {
+struct Cardinal {
+    Vec2 offset;
+    Direction dir;
+};
+
+std::ostream& operator<<(std::ostream & Str, Cardinal const & v) { 
+    Str << std::to_string(v.offset.x) + " " + std::to_string(v.offset.y) + "\n";
+    return Str;
+}
+
+Vec2 adjOffsets[] = {
     {0, 1}, {1, 1}, {1, 0}, {1, -1},
     {0, -1}, {-1, -1}, {-1, 0}, {-1, 1}
 };
-int adjOffsetsNorth[][2] = {
+Vec2 adjOffsetsNorth[] = {
     {-1, -1}, {0, -1}, {1, -1}
 };
-int adjOffsetsEast[][2] = {
+Vec2 adjOffsetsEast[] = {
     {1, -1}, {1, 0}, {1, 1}
 };
-int adjOffsetsSouth[][2] = {
+Vec2 adjOffsetsSouth[] = {
     {-1, 1}, {0, 1}, {1, 1}
 };
-int adjOffsetsWest[][2] = {
+Vec2 adjOffsetsWest[] = {
     {-1, -1}, {-1, 0}, {-1, 1}
 };
 
-static int moveDirections[][2] = {
-    {0, -1}, {1, 0}, {0, 1}, {-1, 0}
+Cardinal moveDirections[] = {
+    {{0, -1}, Direction::north},
+    {{1, 0}, Direction::east},
+    {{0, 1}, Direction::south},
+    {{-1, 0}, Direction::west}
 };
 
 bool Room::collidesWith(const Room other) const {
     return (
-        x0 - 1 < other.x1 &&
-        x1 + 1 > other.x0 &&
-        y0 - 1 < other.y1 &&
-        y1 + 1 > other.y0);
+        topLeft.x - 1 < other.bottomRight.x &&
+        bottomRight.x + 1 > other.topLeft.x &&
+        topLeft.y - 1 < other.bottomRight.y &&
+        bottomRight.y + 1 > other.topLeft.y);
 }
 
 Sprite* Map::wallSprite = new Sprite();
@@ -60,9 +76,12 @@ void Map::generateMap() {
         }
     }
     generateRooms();
-    for (int x = 0; x < TILE_NUM_X; x++) {
-        for (int y = 0; y < TILE_NUM_Y; y++) {
-            generateCorridor(x, y);
+    for (int x = 1; x < TILE_NUM_X - 1; x++) {
+        for (int y = 1; y < TILE_NUM_Y - 1; y++) {
+            Vec2 pos{x, y};
+            if (!adjacentToOpen(pos)) {
+                generateCorridor(pos);
+            }
         }
     }
 }
@@ -105,34 +124,56 @@ void Map::generateRoom(
 void shuffleDirections() {
     for (int i = 3; i > 0; i--) {
         int j = randomInt(0, i);
-        for (int p = 0; p < 1; p++) {
-            int temp = moveDirections[i][p];
-            moveDirections[i][p] = moveDirections[j][p];
-            moveDirections[j][p] = temp;
-        }
+        Vec2 temp = moveDirections[i].offset;
+        moveDirections[i].offset = moveDirections[j].offset;
+        moveDirections[j].offset = temp;
     }
 }
 
 void Map::generateCorridor(
-        const int startX, const int startY) {
+        const Vec2 startPos) {
+    Vec2 currentPos = startPos;
+    std::vector<Vec2> history;
+    history.push_back(currentPos);
+    do {
+        if (extendCorridor(currentPos)) {
+            history.push_back(currentPos);
+            grid[currentPos.x][currentPos.y] = Tile::open;
+        } else {
+            currentPos = history.back();
+            history.pop_back();
+        }
+    } while (currentPos != startPos);
 
 }
 
-int* getOffsets(const Direction dir) {
-    int* offsets = &adjOffsets[0][0];
+bool Map::extendCorridor(Vec2 currentPos) {
+    std::cout << moveDirections[0] << "\n";
+    shuffleDirections();
+    for (Cardinal offset : moveDirections) {
+        if (!adjacentToOpenInDirection(currentPos, offset.dir)) {
+            currentPos += offset.offset;
+            return true;
+        }
+    }
+    return false;
+}
+
+Vec2* getOffsets(const Direction dir) {
+    Vec2* offsets = &adjOffsets[0];
     if (dir != -1) {
         switch (dir) {
         case Direction::north:
-            offsets = &adjOffsetsNorth[0][0];
+            offsets = &adjOffsetsNorth[0];
             break;
         case Direction::east:
-            offsets = &adjOffsetsEast[0][0];
+            offsets = &adjOffsetsEast[0];
             break;
         case Direction::south:
-            offsets = &adjOffsetsSouth[0][0];
+            offsets = &adjOffsetsSouth[0];
             break;
         case Direction::west:
-            offsets = &adjOffsetsWest[0][0];
+            offsets = &adjOffsetsWest[0];
             break;
         }
     }
@@ -140,14 +181,18 @@ int* getOffsets(const Direction dir) {
 }
 
 bool Map::adjacentToOpen(
-        const int x, const int y,
-        const Direction dir = (Direction)(-1)) const {
+        const Vec2 pos) const {
+    return adjacentToOpenInDirection(pos, (Direction)(-1));
+}
+
+bool Map::adjacentToOpenInDirection(
+        const Vec2 pos, const Direction dir) const {
     int n = (dir == -1) ? nAdjOffsets : nAdjOffsetsDir;
-    int* offsets = getOffsets(dir);
+    Vec2* offsets = getOffsets(dir);
     for (int i = 0; i < n; i++) {
         Tile tile = grid
-            [x + offsets[i * 2 + 0]]
-            [y + offsets[i * 2 + 1]];
+            [pos.x + offsets[i].x]
+            [pos.y + offsets[i].y];
         if (tile == Tile::open) {
             return true;
         }

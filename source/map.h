@@ -5,6 +5,7 @@
 #include <time.h>
 #include <SDL2/SDL.h>
 #include "sprite.h"
+#include "vec2.h"
 
 enum Tile {
     wall, open
@@ -15,9 +16,9 @@ enum Direction {
 };
 
 struct Room {
-    int x0, y0, x1, y1;
+    Vec2 topLeft, bottomRight;
 
-    bool collidesWith(const Room other) const ;
+    bool collidesWith(const Room other) const;
 };
 
 class Map {
@@ -34,10 +35,12 @@ private:
     void generateRooms();
     void generateRoom(
         int x0, int y0, int x1, int y1);
-    void generateCorridor(int startX, int startY);
+    void generateCorridor(Vec2 pos);
+    bool extendCorridor(Vec2 currentPos);
 
-    bool adjacentToOpen(
-        const int x, const int y, const Direction dir) const;
+    bool adjacentToOpen(const Vec2 pos) const;
+    bool adjacentToOpenInDirection(
+        const Vec2 pos, const Direction dir) const;
 
     void blitMap();
 public:
