@@ -12,7 +12,7 @@ struct Cardinal {
 };
 
 std::ostream& operator<<(std::ostream & Str, Cardinal const & v) { 
-    Str << std::to_string(v.offset.x) + " " + std::to_string(v.offset.y) + "\n";
+    Str << std::to_string(v.offset.x) + " " + std::to_string(v.offset.y) + " - " + std::to_string(v.dir);
     return Str;
 }
 
@@ -124,9 +124,9 @@ void Map::generateRoom(
 void shuffleDirections() {
     for (int i = 3; i > 0; i--) {
         int j = randomInt(0, i);
-        Vec2 temp = moveDirections[i].offset;
-        moveDirections[i].offset = moveDirections[j].offset;
-        moveDirections[j].offset = temp;
+        Cardinal temp = moveDirections[i];
+        moveDirections[i] = moveDirections[j];
+        moveDirections[j] = temp;
     }
 }
 
@@ -136,7 +136,7 @@ void Map::generateCorridor(
     std::vector<Vec2> history;
     history.push_back(currentPos);
     do {
-        if (extendCorridor(currentPos)) {
+        if (extendCorridor(&currentPos)) {
             history.push_back(currentPos);
             grid[currentPos.x][currentPos.y] = Tile::open;
         } else {
@@ -147,12 +147,12 @@ void Map::generateCorridor(
 
 }
 
-bool Map::extendCorridor(Vec2 currentPos) {
+bool Map::extendCorridor(Vec2* currentPos) {
     std::cout << moveDirections[0] << "\n";
     shuffleDirections();
     for (Cardinal offset : moveDirections) {
-        if (!adjacentToOpenInDirection(currentPos, offset.dir)) {
-            currentPos += offset.offset;
+        if (!adjacentToOpenInDirection(*currentPos, offset.dir)) {
+            *currentPos += offset.offset;
             return true;
         }
     }

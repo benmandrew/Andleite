@@ -36,7 +36,7 @@ private:
     void generateRoom(
         int x0, int y0, int x1, int y1);
     void generateCorridor(Vec2 pos);
-    bool extendCorridor(Vec2 currentPos);
+    bool extendCorridor(Vec2* currentPos);
 
     bool adjacentToOpen(const Vec2 pos) const;
     bool adjacentToOpenInDirection(
