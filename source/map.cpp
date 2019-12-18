@@ -3,8 +3,8 @@
 #include <string>
 #include <iostream>
 
-constexpr int nAdjOffsets = 8;
-constexpr int nAdjOffsetsDir = 3;
+constexpr int nAdjOffsets = 9;
+constexpr int nAdjOffsetsDir = 6;
 
 struct Cardinal {
     Vec2 offset;
@@ -12,25 +12,30 @@ struct Cardinal {
 };
 
 std::ostream& operator<<(std::ostream & Str, Cardinal const & v) { 
-    Str << std::to_string(v.offset.x) + " " + std::to_string(v.offset.y) + " - " + std::to_string(v.dir);
+    Str << std::to_string(v.dir);
+    return Str;
+}
+
+std::ostream& operator<<(std::ostream & Str, Vec2 const & v) { 
+    Str << '[' << std::to_string(v.x) + ", " + std::to_string(v.y) << ']';
     return Str;
 }
 
 Vec2 adjOffsets[] = {
-    {0, 1}, {1, 1}, {1, 0}, {1, -1},
+    {0, 0}, {0, 1}, {1, 1}, {1, 0}, {1, -1},
     {0, -1}, {-1, -1}, {-1, 0}, {-1, 1}
 };
 Vec2 adjOffsetsNorth[] = {
-    {-1, -1}, {0, -1}, {1, -1}
+    {0, 0}, {-1, 0}, {-1, -1}, {0, -1}, {1, -1}, {1, 0}
 };
 Vec2 adjOffsetsEast[] = {
-    {1, -1}, {1, 0}, {1, 1}
+    {0, 0}, {0, -1}, {1, -1}, {1, 0}, {1, 1}, {0, 1}
 };
 Vec2 adjOffsetsSouth[] = {
-    {-1, 1}, {0, 1}, {1, 1}
+    {0, 0}, {-1, 0}, {-1, 1}, {0, 1}, {1, 1}, {1, 0}
 };
 Vec2 adjOffsetsWest[] = {
-    {-1, -1}, {-1, 0}, {-1, 1}
+    {0, 0}, {0, -1}, {-1, -1}, {-1, 0}, {-1, 1}, {0, 1}
 };
 
 Cardinal moveDirections[] = {
@@ -72,10 +77,23 @@ void Map::init() {
 void Map::generateMap() {
     for (int x = 0; x < TILE_NUM_X; x++) {
         for (int y = 0; y < TILE_NUM_Y; y++) {
-            grid[x][y] = Tile::wall;
+            if (x == 0 || y == 0 || x == TILE_NUM_X - 1 || y == TILE_NUM_Y - 1) {
+                grid[x][y] = Tile::edge;
+            } else {
+                grid[x][y] = Tile::wall;
+            }
         }
-    }
+    }/*
+    Vec2 p{5, 5};
+    grid[p.x][p.y] = Tile::open;
+    for (int i = 0; i < 10; i++){
+        if (extendCorridor(&p)) {
+            std::cout << p << " ~\n";
+            grid[p.x][p.y] = Tile::open;
+        }
+    }*/
     generateRooms();
+    
     for (int x = 1; x < TILE_NUM_X - 1; x++) {
         for (int y = 1; y < TILE_NUM_Y - 1; y++) {
             Vec2 pos{x, y};
@@ -132,9 +150,10 @@ void shuffleDirections() {
 
 void Map::generateCorridor(
         const Vec2 startPos) {
+    grid[startPos.x][startPos.y] = Tile::open;
     Vec2 currentPos = startPos;
     std::vector<Vec2> history;
-    history.push_back(currentPos);
+    //history.push_back(currentPos);
     do {
         if (extendCorridor(&currentPos)) {
             history.push_back(currentPos);
@@ -143,15 +162,13 @@ void Map::generateCorridor(
             currentPos = history.back();
             history.pop_back();
         }
-    } while (currentPos != startPos);
-
+    } while (history.size() > 0);
 }
 
 bool Map::extendCorridor(Vec2* currentPos) {
-    std::cout << moveDirections[0] << "\n";
     shuffleDirections();
     for (Cardinal offset : moveDirections) {
-        if (!adjacentToOpenInDirection(*currentPos, offset.dir)) {
+        if (!adjacentToOpenInDirection(*currentPos, offset.offset, offset.dir)) {
             *currentPos += offset.offset;
             return true;
         }
@@ -180,23 +197,24 @@ Vec2* getOffsets(const Direction dir) {
     return offsets;
 }
 
-bool Map::adjacentToOpen(
-        const Vec2 pos) const {
-    return adjacentToOpenInDirection(pos, (Direction)(-1));
+bool Map::adjacentToOpen(const Vec2 pos) const {
+    return adjacentToOpenInDirection(pos, {0, 0}, (Direction)(-1));
 }
 
 bool Map::adjacentToOpenInDirection(
-        const Vec2 pos, const Direction dir) const {
+        const Vec2 pos, const Vec2 offset, const Direction dir) const {
     int n = (dir == -1) ? nAdjOffsets : nAdjOffsetsDir;
     Vec2* offsets = getOffsets(dir);
     for (int i = 0; i < n; i++) {
-        Tile tile = grid
-            [pos.x + offsets[i].x]
-            [pos.y + offsets[i].y];
-        if (tile == Tile::open) {
+        Vec2 p = pos + offset + offsets[i];
+        std::cout << p << ' ';
+        Tile tile = grid[p.x][p.y];
+        if (tile != Tile::wall) {
+            std::cout << "FOUND\n";
             return true;
         }
     }
+    std::cout << '\n';
     return false;
 }
 
@@ -205,7 +223,7 @@ void Map::blitMap() {
     SDL_Rect posRect = {0, 0, TILE_SIZE, TILE_SIZE};
     for (int x = 0; x < TILE_NUM_X; x++) {
         for (int y = 0; y < TILE_NUM_Y; y++) {
-            if (grid[x][y] == wall) {
+            if (grid[x][y] == Tile::wall || grid[x][y] == Tile::edge) {
                 currentTileSprite = wallSprite;
             } else {
                 currentTileSprite = openSprite;

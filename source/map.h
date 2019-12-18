@@ -8,7 +8,7 @@
 #include "vec2.h"
 
 enum Tile {
-    wall, open
+    wall, open, edge
 };
 
 enum Direction {
@@ -38,9 +38,11 @@ private:
     void generateCorridor(Vec2 pos);
     bool extendCorridor(Vec2* currentPos);
 
-    bool adjacentToOpen(const Vec2 pos) const;
+    bool adjacentToOpen(
+        const Vec2 pos) const;
     bool adjacentToOpenInDirection(
-        const Vec2 pos, const Direction dir) const;
+        const Vec2 pos, const Vec2 offset,
+        const Direction dir) const;
 
     void blitMap();
 public:
