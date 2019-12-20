@@ -11,16 +11,6 @@ struct Cardinal {
     Direction dir;
 };
 
-std::ostream& operator<<(std::ostream & Str, Cardinal const & v) { 
-    Str << std::to_string(v.dir);
-    return Str;
-}
-
-std::ostream& operator<<(std::ostream & Str, Vec2 const & v) { 
-    Str << '[' << std::to_string(v.x) + ", " + std::to_string(v.y) << ']';
-    return Str;
-}
-
 Vec2 adjOffsets[] = {
     {0, 0}, {0, 1}, {1, 1}, {1, 0}, {1, -1},
     {0, -1}, {-1, -1}, {-1, 0}, {-1, 1}
@@ -83,17 +73,8 @@ void Map::generateMap() {
                 grid[x][y] = Tile::wall;
             }
         }
-    }/*
-    Vec2 p{5, 5};
-    grid[p.x][p.y] = Tile::open;
-    for (int i = 0; i < 10; i++){
-        if (extendCorridor(&p)) {
-            std::cout << p << " ~\n";
-            grid[p.x][p.y] = Tile::open;
-        }
-    }*/
+    }
     generateRooms();
-    
     for (int x = 1; x < TILE_NUM_X - 1; x++) {
         for (int y = 1; y < TILE_NUM_Y - 1; y++) {
             Vec2 pos{x, y};
@@ -115,8 +96,8 @@ void Map::generateRooms() {
             ROOM_MIN_SIZE, ROOM_MAX_SIZE);
         int height = randomInt(
             ROOM_MIN_SIZE, ROOM_MAX_SIZE);
-        int x0 = randomInt(1, TILE_NUM_X - width - 1);
-        int y0 = randomInt(1, TILE_NUM_Y - height - 1);
+        int x0 = randomInt(2, TILE_NUM_X - width - 2);
+        int y0 = randomInt(2, TILE_NUM_Y - height - 2);
         generateRoom(x0, y0, x0 + width, y0 + height);
     }
 }
@@ -153,7 +134,7 @@ void Map::generateCorridor(
     grid[startPos.x][startPos.y] = Tile::open;
     Vec2 currentPos = startPos;
     std::vector<Vec2> history;
-    //history.push_back(currentPos);
+    history.push_back(currentPos);
     do {
         if (extendCorridor(&currentPos)) {
             history.push_back(currentPos);
@@ -207,14 +188,11 @@ bool Map::adjacentToOpenInDirection(
     Vec2* offsets = getOffsets(dir);
     for (int i = 0; i < n; i++) {
         Vec2 p = pos + offset + offsets[i];
-        std::cout << p << ' ';
         Tile tile = grid[p.x][p.y];
         if (tile != Tile::wall) {
-            std::cout << "FOUND\n";
             return true;
         }
     }
-    std::cout << '\n';
     return false;
 }
 
@@ -239,6 +217,10 @@ void Map::blitMap() {
 
         }
     }
+}
+
+Tile Map::getTile(const Vec2 pos) const {
+    return grid[pos.x][pos.y];
 }
 
 SDL_Rect* Map::getRect() {

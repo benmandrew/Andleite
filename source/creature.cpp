@@ -1,9 +1,9 @@
 #include "creature.h"
 
 Creature::Creature() {
-    changedPos = false;
-    x = 0;
-    y = 0;
+    changedPos = true;
+    x = 2;
+    y = 2;
     sprite = new Sprite();
 }
 
@@ -11,18 +11,27 @@ Creature::~Creature() {
     delete sprite;
 }
 
-void Creature::moveX(int dx) {
-    x = (x + dx + TILE_NUM_X) % TILE_NUM_X;
+void Creature::moveX(const int dx) {
+    int new_x = (x + dx + TILE_NUM_X) % TILE_NUM_X;
+    if (map->getTile({new_x, y}) != Tile::open) {
+        return;
+    }
+    x = new_x;
     changedPos = true;
 }
 
-void Creature::moveY(int dy) {
-    y = (y + dy + TILE_NUM_Y) % TILE_NUM_Y;
+void Creature::moveY(const int dy) {
+    int new_y = (y + dy + TILE_NUM_Y) % TILE_NUM_Y;
+    if (map->getTile({x, new_y}) != Tile::open) {
+        return;
+    }
+    y = new_y;
     changedPos = true;
 }
 
-void Creature::init(std::string spritePath) {
+void Creature::init(const std::string spritePath, Map* _map) {
     sprite->loadBMP(spritePath);
+    map = _map;
 }
 
 Sprite* Creature::getSprite() {

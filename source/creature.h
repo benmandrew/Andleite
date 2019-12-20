@@ -4,6 +4,7 @@
 #include <string>
 
 #include "input.h"
+#include "map.h"
 #include "sprite.h"
 
 class Creature : public Observer {
@@ -11,15 +12,16 @@ private:
     bool changedPos;
     int x, y;
     Sprite* sprite;
+    Map* map;
 
-    void moveX(int dx);
-    void moveY(int dy);
+    void moveX(const int dx);
+    void moveY(const int dy);
 public:
     Creature();
     ~Creature();
 
-    void init(std::string spritePath);
+    void init(std::string spritePath, Map* _map);
     Sprite* getSprite();
 
-    void onNotify(int event);
+    void onNotify(const int event);
 };

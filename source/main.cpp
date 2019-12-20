@@ -32,7 +32,7 @@ int main(int argc, char* args[]) {
         printf("Failed to initialise!\n");
     } else {
         map->init();
-        player->init(PLAYER_BMP_PATH);
+        player->init(PLAYER_BMP_PATH, map);
         mainLoop(window, input, map, player);
     }
     delete window;

@@ -50,6 +50,7 @@ public:
     ~Map();
 
     void init();
+    Tile getTile(const Vec2 pos) const;
     SDL_Rect* getRect();
     SDL_Surface* getSurface() const;
 };
