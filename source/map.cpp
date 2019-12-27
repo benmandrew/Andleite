@@ -35,14 +35,6 @@ Cardinal moveDirections[] = {
     {{-1, 0}, Direction::west}
 };
 
-bool Room::collidesWith(const Room other) const {
-    return (
-        topLeft.x - 1 < other.bottomRight.x &&
-        bottomRight.x + 1 > other.topLeft.x &&
-        topLeft.y - 1 < other.bottomRight.y &&
-        bottomRight.y + 1 > other.topLeft.y);
-}
-
 Sprite* Map::wallSprite = new Sprite();
 Sprite* Map::openSprite = new Sprite();
 
@@ -67,10 +59,11 @@ void Map::init() {
 void Map::generateMap() {
     for (int x = 0; x < TILE_NUM_X; x++) {
         for (int y = 0; y < TILE_NUM_Y; y++) {
-            if (x == 0 || y == 0 || x == TILE_NUM_X - 1 || y == TILE_NUM_Y - 1) {
-                grid[x][y] = Tile::edge;
+            if (x == 0 || y == 0 || x == TILE_NUM_X - 1
+                    || y == TILE_NUM_Y - 1) {
+                grid[x][y] = Tile(TileType::edge, nullptr);
             } else {
-                grid[x][y] = Tile::wall;
+                grid[x][y] = Tile(TileType::wall, nullptr);
             }
         }
     }
@@ -105,16 +98,17 @@ void Map::generateRooms() {
 void Map::generateRoom(
         const int x0, const int y0,
         const int x1, const int y1) {
-    Room candidateRoom = {x0, y0, x1, y1};
+    Region candidateRoom;
+    candidateRoom.setBounds({x0, y0}, {x1, y1});
     for (int i = 0; i < rooms.size(); i++) {
-        if (candidateRoom.collidesWith(rooms[i])) {
+        if (candidateRoom.boundsCollide(rooms[i], true)) {
             return;
         }
     }
     rooms.push_back(candidateRoom);
     for (int y = y0; y < y1; y++) {
         for (int x = x0; x < x1; x++) {
-            grid[x][y] = Tile::open;
+            grid[x][y] = Tile(TileType::open, nullptr);
         }
     }
 }
@@ -131,14 +125,15 @@ void shuffleDirections() {
 
 void Map::generateCorridor(
         const Vec2 startPos) {
-    grid[startPos.x][startPos.y] = Tile::open;
+    grid[startPos.x][startPos.y] = Tile(TileType::open, nullptr);
     Vec2 currentPos = startPos;
     std::vector<Vec2> history;
     history.push_back(currentPos);
     do {
         if (extendCorridor(&currentPos)) {
             history.push_back(currentPos);
-            grid[currentPos.x][currentPos.y] = Tile::open;
+            grid[currentPos.x][currentPos.y] = Tile(
+                TileType::open, nullptr);
         } else {
             currentPos = history.back();
             history.pop_back();
@@ -149,7 +144,8 @@ void Map::generateCorridor(
 bool Map::extendCorridor(Vec2* currentPos) {
     shuffleDirections();
     for (Cardinal offset : moveDirections) {
-        if (!adjacentToOpenInDirection(*currentPos, offset.offset, offset.dir)) {
+        if (!adjacentToOpenInDirection(
+                *currentPos, offset.offset, offset.dir)) {
             *currentPos += offset.offset;
             return true;
         }
@@ -189,7 +185,7 @@ bool Map::adjacentToOpenInDirection(
     for (int i = 0; i < n; i++) {
         Vec2 p = pos + offset + offsets[i];
         Tile tile = grid[p.x][p.y];
-        if (tile != Tile::wall) {
+        if (tile.type != TileType::wall) {
             return true;
         }
     }
@@ -201,7 +197,8 @@ void Map::blitMap() {
     SDL_Rect posRect = {0, 0, TILE_SIZE, TILE_SIZE};
     for (int x = 0; x < TILE_NUM_X; x++) {
         for (int y = 0; y < TILE_NUM_Y; y++) {
-            if (grid[x][y] == Tile::wall || grid[x][y] == Tile::edge) {
+            if (grid[x][y].type == TileType::wall
+                    || grid[x][y].type == TileType::edge) {
                 currentTileSprite = wallSprite;
             } else {
                 currentTileSprite = openSprite;

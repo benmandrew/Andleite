@@ -27,6 +27,8 @@
                 "${workspaceFolder}/header/map.h",
                 "${workspaceFolder}/source/vec2.cpp",
                 "${workspaceFolder}/header/vec2.h",
+                "${workspaceFolder}/source/region.cpp",
+                "${workspaceFolder}/header/region.h",
                 "${workspaceFolder}/header/constants.h",
                 "-w",
                 "-lSDL2",

@@ -6,19 +6,10 @@
 #include <SDL2/SDL.h>
 #include "sprite.h"
 #include "vec2.h"
-
-enum Tile {
-    wall, open, edge
-};
+#include "region.h"
 
 enum Direction {
     north, east, south, west
-};
-
-struct Room {
-    Vec2 topLeft, bottomRight;
-
-    bool collidesWith(const Room other) const;
 };
 
 class Map {
@@ -26,7 +17,7 @@ private:
     SDL_Rect mapPosRect;
     SDL_Surface* mapSurface;
     Tile grid[TILE_NUM_X][TILE_NUM_Y];
-    std::vector<Room> rooms;
+    std::vector<Region> rooms;
 
     static Sprite* wallSprite;
     static Sprite* openSprite;

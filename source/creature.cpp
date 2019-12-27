@@ -13,7 +13,7 @@ Creature::~Creature() {
 
 void Creature::moveX(const int dx) {
     int new_x = (x + dx + TILE_NUM_X) % TILE_NUM_X;
-    if (map->getTile({new_x, y}) != Tile::open) {
+    if (map->getTile({new_x, y}).type != TileType::open) {
         return;
     }
     x = new_x;
@@ -22,7 +22,7 @@ void Creature::moveX(const int dx) {
 
 void Creature::moveY(const int dy) {
     int new_y = (y + dy + TILE_NUM_Y) % TILE_NUM_Y;
-    if (map->getTile({x, new_y}) != Tile::open) {
+    if (map->getTile({x, new_y}).type != TileType::open) {
         return;
     }
     y = new_y;
