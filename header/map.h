@@ -28,6 +28,7 @@ private:
         int x0, int y0, int x1, int y1);
     void generateCorridor(Vec2 pos);
     bool extendCorridor(Vec2* currentPos);
+    void connectRegions();
 
     bool adjacentToOpen(
         const Vec2 pos) const;

@@ -1,5 +1,6 @@
 #pragma once
 
+#include <vector>
 #include "vec2.h"
 
 class Region;
@@ -32,4 +33,20 @@ public:
 
     bool operator==(const Region other) const;
     bool operator!=(const Region other) const;
+};
+
+struct Connector {
+    Vec2 pos;
+    Region* left;
+    Region* right;
+};
+
+class RegionGraph {
+    std::vector<int> subsets;
+    std::vector<Connector> connectors;
+
+public:
+    void calcMST();
+    int findSubset(const int connectorIndex) const;
+    void unionSubsets(const int i, const int j);
 };

@@ -34,3 +34,19 @@ bool Region::operator==(const Region other) const {
 bool Region::operator!=(const Region other) const {
     return id != other.id;
 }
+
+
+int RegionGraph::findSubset(const int connectorIndex) const {
+    if (subsets[connectorIndex] == -1) {
+        return connectorIndex;
+    }
+    return findSubset(subsets[connectorIndex]);
+}
+
+void RegionGraph::unionSubsets(const int i, const int j) {
+    const int iSet = findSubset(i);
+    const int jSet = findSubset(j);
+    if (iSet != jSet) {
+        subsets[iSet] = jSet;
+    }
+}
