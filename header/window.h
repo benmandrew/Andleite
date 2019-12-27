@@ -1,3 +1,5 @@
+#ifndef __WINDOW_H_INCLUDED__
+#define __WINDOW_H_INCLUDED__
 #pragma once
 
 #include <SDL2/SDL.h>
@@ -20,3 +22,5 @@ public:
 
     SDL_PixelFormat* getPixelFormat();
 };
+
+#endif

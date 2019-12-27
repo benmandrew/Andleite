@@ -1,3 +1,5 @@
+#ifndef __CONSTANTS_H_INCLUDED__
+#define __CONSTANTS_H_INCLUDED__
 #pragma once
 
 #include <string>
@@ -20,3 +22,5 @@ const static std::string SLIME_BMP_PATH = "./resources/slime.bmp";
 
 const static std::string WALL_BMP_PATH = "./resources/wall.bmp";
 const static std::string OPEN_BMP_PATH = "./resources/floor.bmp";
+
+#endif

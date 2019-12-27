@@ -1,3 +1,5 @@
+#ifndef __VEC2_H_INCLUDED__
+#define __VEC2_H_INCLUDED__
 #pragma once
 
 #include <algorithm>
@@ -21,3 +23,5 @@ struct AABB {
 
     AABB getUnion(const AABB other) const;
 };
+
+#endif

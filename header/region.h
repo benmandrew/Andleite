@@ -1,9 +1,12 @@
+#ifndef __REGION_H_INCLUDED__
+#define __REGION_H_INCLUDED__
 #pragma once
 
 #include <vector>
 #include "vec2.h"
 
 class Region;
+class Map;
 
 enum TileType {
     wall, open, edge
@@ -26,6 +29,7 @@ private:
 public:
     Region();
 
+    int getID() const;
     void addTile(Vec2 tilePos);
     void setBounds(Vec2 topLeft, Vec2 bottomRight);
     bool boundsCollide(
@@ -37,16 +41,23 @@ public:
 
 struct Connector {
     Vec2 pos;
-    Region* left;
-    Region* right;
+    int left;
+    int right;
 };
 
 class RegionGraph {
     std::vector<int> subsets;
     std::vector<Connector> connectors;
+    int nVertex;
 
-public:
-    void calcMST();
     int findSubset(const int connectorIndex) const;
     void unionSubsets(const int i, const int j);
+
+public:
+    RegionGraph(const std::vector<Connector> _connectors, const int _nVertex);
+
+    void reduceToMST();
+    void etchConnectors(Map* map);
 };
+
+#endif

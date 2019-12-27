@@ -1,3 +1,5 @@
+#ifndef __CREATURE_H_INCLUDED__
+#define __CREATURE_H_INCLUDED__
 #pragma once
 
 #include <SDL2/SDL.h>
@@ -25,3 +27,5 @@ public:
 
     void onNotify(const int event);
 };
+
+#endif

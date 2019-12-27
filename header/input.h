@@ -1,3 +1,5 @@
+#ifndef __INPUT_H_INCLUDED__
+#define __INPUT_H_INCLUDED__
 #pragma once
 
 #include <map>
@@ -27,3 +29,5 @@ public:
     void pollEvents();
     bool doQuit();
 };
+
+#endif

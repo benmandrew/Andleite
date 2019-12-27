@@ -1,3 +1,5 @@
+#ifndef __SPRITE_H_INCLUDED__
+#define __SPRITE_H_INCLUDED__
 #pragma once
 
 #include <string>
@@ -23,3 +25,5 @@ public:
     SDL_Rect* getPosRect();
     SDL_Surface* getSurface();
 };
+
+#endif

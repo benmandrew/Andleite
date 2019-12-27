@@ -1,3 +1,5 @@
+#ifndef __OBSERVER_H_INCLUDED__
+#define __OBSERVER_H_INCLUDED__
 #pragma once
 
 #include <vector>
@@ -18,3 +20,5 @@ public:
     void addObserver(Observer* observer);
     void removeObserver(Observer* observer);
 };
+
+#endif
