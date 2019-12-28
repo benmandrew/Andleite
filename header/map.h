@@ -22,8 +22,8 @@ private:
     int nRegion;
     int regionTopID;
 
-    static Sprite* wallSprite;
-    static Sprite* openSprite;
+    Sprite* wallSprite;
+    Sprite* openSprite;
 
     void generateMap();
     void initTiles();

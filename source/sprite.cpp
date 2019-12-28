@@ -54,3 +54,6 @@ SDL_Rect* Sprite::getPosRect() {
 SDL_Surface* Sprite::getSurface() {
     return surface;
 }
+
+
+std::map<std::string, Sprite*>

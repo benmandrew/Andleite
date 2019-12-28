@@ -3,6 +3,8 @@
 #pragma once
 
 #include <string>
+#include <map>
+#include <dirent.h>
 #include <SDL2/SDL.h>
 #include "constants.h"
 
@@ -24,6 +26,11 @@ public:
     void loadBMP(std::string path);
     SDL_Rect* getPosRect();
     SDL_Surface* getSurface();
+};
+
+class SpriteIndex {
+private:
+    static std::map<std::string, Sprite*> sprites;
 };
 
 #endif

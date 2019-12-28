@@ -39,9 +39,6 @@ Cardinal moveDirections[] = {
     {{-1, 0}, Direction::west}
 };
 
-Sprite* Map::wallSprite = new Sprite();
-Sprite* Map::openSprite = new Sprite();
-
 Map::Map() {
     srand(time(NULL));
     mapPosRect = {0, 0, SCREEN_WIDTH, SCREEN_HEIGHT};
@@ -49,10 +46,14 @@ Map::Map() {
 }
 
 Map::~Map() {
-
+    delete wallSprite;
+    delete openSprite;
+    delete mapSurface;
 }
 
 void Map::init() {
+    wallSprite = new Sprite();
+    openSprite = new Sprite();
     wallSprite->loadBMP(WALL_BMP_PATH);
     openSprite->loadBMP(OPEN_BMP_PATH);
     mapSurface = SDL_CreateRGBSurface(

@@ -12,12 +12,19 @@ enum TileType {
     wall, open, edge
 };
 
+enum TileVisibility {
+    visible, hidden, seen
+};
+
 struct Tile {
     TileType type;
+    TileVisibility visibility;
     Region* region;
 
-    Tile(TileType _type=TileType::wall, Region* _region=nullptr)
-        : region(_region), type(_type) {
+    Tile(TileType _type=wall,
+        TileVisibility _visibility=hidden,
+        Region* _region=nullptr)
+        : region(_region), visibility(_visibility), type(_type) {
     }
 };
 
