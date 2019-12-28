@@ -3,7 +3,9 @@
 #pragma once
 
 #include <string>
+#include <iostream>
 #include <map>
+#include <assert.h>
 #include <dirent.h>
 #include <SDL2/SDL.h>
 #include "constants.h"
@@ -31,6 +33,10 @@ public:
 class SpriteIndex {
 private:
     static std::map<std::string, Sprite*> sprites;
+
+public:
+    static void init(const std::string resourcesPath);
+    static Sprite* get(const std::string id);
 };
 
 #endif

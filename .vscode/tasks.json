@@ -29,6 +29,8 @@
                 "${workspaceFolder}/header/vec2.h",
                 "${workspaceFolder}/source/region.cpp",
                 "${workspaceFolder}/header/region.h",
+                "${workspaceFolder}/source/modulemanager.cpp",
+                "${workspaceFolder}/header/modulemanager.h",
                 "${workspaceFolder}/header/constants.h",
                 "-w",
                 "-lSDL2",

@@ -56,4 +56,23 @@ SDL_Surface* Sprite::getSurface() {
 }
 
 
-std::map<std::string, Sprite*>
+std::map<std::string, Sprite*> sprites;
+
+void SpriteIndex::init(const std::string resourcesPath) {
+    dirent *entry = nullptr;
+    DIR *dp = nullptr;
+    dp = opendir(resourcesPath.c_str());
+    if (dp != nullptr) {
+        while (entry = readdir(dp)) {
+            std::cout << entry->d_name << "\n";
+        }
+    }
+    closedir(dp);
+}
+
+Sprite* SpriteIndex::get(const std::string id) {
+    auto found = sprites.find(id);
+    // Raise an error if not in the map
+    assert(found != sprites.end());
+    return found->second;
+}
