@@ -24,7 +24,7 @@ struct Tile {
 class Region {
 private:
     static int top_id;
-    int id;
+    const int id;
     AABB bounds;
 public:
     Region();

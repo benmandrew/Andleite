@@ -4,8 +4,8 @@
 
 int Region::top_id = 0;
 
-Region::Region() {
-    id = top_id;
+Region::Region()
+        : id(top_id) {
     top_id++;
 }
 

@@ -112,22 +112,22 @@ void Map::generateRooms() {
 void Map::generateRoom(
         const int x0, const int y0,
         const int x1, const int y1) {
-    Region candidateRoom;
-    candidateRoom.setBounds({x0, y0}, {x1, y1});
+    Region* candidateRoom = new Region();
+    candidateRoom->setBounds({x0, y0}, {x1, y1});
     // Attempt to place room without collisions
     for (int i = 0; i < regions.size(); i++) {
         // Rooms are tested against all regions because
         // corridors aren't placed yet, only rooms exist
-        if (candidateRoom.boundsCollide(regions[i], true)) {
+        if (candidateRoom->boundsCollide(regions[i], true)) {
             return;
         }
     }
-    regions.push_back(candidateRoom);
+    regions.push_back(*candidateRoom);
     nRegion++;
     // Blit room
     for (int y = y0; y < y1; y++) {
         for (int x = x0; x < x1; x++) {
-            grid[x][y] = Tile(TileType::open, &candidateRoom);
+            grid[x][y] = Tile(TileType::open, candidateRoom);
         }
     }
 }
@@ -142,9 +142,10 @@ void shuffleDirections() {
     }
 }
 
-void Map::generateCorridor(
-        const Vec2 startPos) {
-    grid[startPos.x][startPos.y] = Tile(TileType::open, nullptr);
+void Map::generateCorridor(const Vec2 startPos) {
+    Region newRegion;
+    newRegion.setBounds(startPos, startPos);
+    grid[startPos.x][startPos.y] = Tile(TileType::open, &newRegion);
     Vec2 currentPos = startPos;
     std::vector<Vec2> history;
     history.push_back(currentPos);
@@ -153,7 +154,7 @@ void Map::generateCorridor(
         if (extendCorridor(&currentPos)) {
             history.push_back(currentPos);
             grid[currentPos.x][currentPos.y] = Tile(
-                TileType::open, nullptr);
+                TileType::open, &newRegion);
         } else {
             currentPos = history.back();
             history.pop_back();
@@ -188,6 +189,9 @@ std::vector<Connector> Map::getConnectors() {
         for (int y = 2; y < TILE_NUM_Y - 2; y++) {
             Vec2 pos = {x, y};
             if (!getCandidateConnector(pos, &regions)) {
+                continue;
+            }
+            if (regions.first == regions.second){
                 continue;
             }
             connectors.push_back({pos, regions.first, regions.second});
@@ -251,9 +255,11 @@ bool Map::getCandidateConnector(
             }
             else if (r1 != -1) {
                 r2 = tile.region->getID();
+                n++;
             }
             else {
                 r1 = tile.region->getID();
+                n++;
             }
         }
     }
