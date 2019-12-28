@@ -2,11 +2,8 @@
 #include "map.h"
 #include "region.h"
 
-int Region::top_id = 0;
-
-Region::Region()
-        : id(top_id) {
-    top_id++;
+Region::Region(int topID)
+        : id(topID) {
 }
 
 int Region::getID() const {
@@ -83,5 +80,18 @@ void RegionGraph::reduceToMST() {
 void RegionGraph::etchConnectors(Map* map) {
     for (Connector connector : connectors) {
         map->setTileType(connector.pos, TileType::open);
+    }
+}
+
+inline float randProbability() {
+    return static_cast <float> (rand()) / static_cast <float> (RAND_MAX);
+}
+
+void RegionGraph::etchConnectorsWithProbability(
+    Map* map, const float openRatio) const {
+    for (Connector connector : connectors) {
+        if (randProbability() <= openRatio){
+            map->setTileType(connector.pos, TileType::open);
+        }
     }
 }

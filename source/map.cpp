@@ -97,14 +97,18 @@ inline int randomOdd(const int min, const int max) {
     return randomInt(min, max) | 0x1;
 }
 
+inline int randomEven(const int min, const int max) {
+    return randomOdd(min, max) - 1;
+}
+
 void Map::generateRooms() {
     for (int i = 0; i < ROOM_ATTEMPT_NUM; i++) {
         int width = randomOdd(
             ROOM_MIN_SIZE, ROOM_MAX_SIZE);
         int height = randomOdd(
             ROOM_MIN_SIZE, ROOM_MAX_SIZE);
-        int x0 = randomOdd(2, TILE_NUM_X - width - 2);
-        int y0 = randomOdd(2, TILE_NUM_Y - height - 2);
+        int x0 = randomEven(2, TILE_NUM_X - width - 2);
+        int y0 = randomEven(2, TILE_NUM_Y - height - 2);
         generateRoom(x0, y0, x0 + width, y0 + height);
     }
 }
@@ -112,13 +116,15 @@ void Map::generateRooms() {
 void Map::generateRoom(
         const int x0, const int y0,
         const int x1, const int y1) {
-    Region* candidateRoom = new Region();
+    Region* candidateRoom = new Region(regionTopID++);
     candidateRoom->setBounds({x0, y0}, {x1, y1});
     // Attempt to place room without collisions
     for (int i = 0; i < regions.size(); i++) {
         // Rooms are tested against all regions because
         // corridors aren't placed yet, only rooms exist
         if (candidateRoom->boundsCollide(regions[i], true)) {
+            regionTopID--;
+            delete candidateRoom;
             return;
         }
     }
@@ -143,9 +149,10 @@ void shuffleDirections() {
 }
 
 void Map::generateCorridor(const Vec2 startPos) {
-    Region newRegion;
-    newRegion.setBounds(startPos, startPos);
-    grid[startPos.x][startPos.y] = Tile(TileType::open, &newRegion);
+    Region* newRegion = new Region(regionTopID++);
+    regions.push_back(*newRegion);
+    newRegion->setBounds(startPos, startPos);
+    grid[startPos.x][startPos.y] = Tile(TileType::open, newRegion);
     Vec2 currentPos = startPos;
     std::vector<Vec2> history;
     history.push_back(currentPos);
@@ -154,7 +161,7 @@ void Map::generateCorridor(const Vec2 startPos) {
         if (extendCorridor(&currentPos)) {
             history.push_back(currentPos);
             grid[currentPos.x][currentPos.y] = Tile(
-                TileType::open, &newRegion);
+                TileType::open, newRegion);
         } else {
             currentPos = history.back();
             history.pop_back();
@@ -177,7 +184,13 @@ bool Map::extendCorridor(Vec2* currentPos) {
 }
 
 void Map::connectRegions() {
-    RegionGraph g = {getConnectors(), nRegion};
+    std::vector<Connector> connectors = getConnectors();
+    RegionGraph g = {connectors, nRegion};
+    // Etch a random distribution of connectors
+    g.etchConnectorsWithProbability(this, OPEN_CONNECTOR_RATIO);
+    // Reduce the connector set to the minimum
+    // spanning tree to ensure that the entire
+    // dungeon is connected, and etch it fully
     g.reduceToMST();
     g.etchConnectors(this);
 }

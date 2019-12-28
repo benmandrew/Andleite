@@ -20,6 +20,7 @@ private:
     Tile grid[TILE_NUM_X][TILE_NUM_Y];
     std::vector<Region> regions;
     int nRegion;
+    int regionTopID;
 
     static Sprite* wallSprite;
     static Sprite* openSprite;

@@ -23,11 +23,10 @@ struct Tile {
 
 class Region {
 private:
-    static int top_id;
     const int id;
     AABB bounds;
 public:
-    Region();
+    Region(int topID);
 
     int getID() const;
     void addTile(Vec2 tilePos);
@@ -58,6 +57,7 @@ public:
 
     void reduceToMST();
     void etchConnectors(Map* map);
+    void etchConnectorsWithProbability(Map* map, const float openRatio) const;
 };
 
 #endif
