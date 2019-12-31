@@ -299,9 +299,14 @@ void Map::blitMap() {
     SDL_Rect posRect = {0, 0, TILE_SIZE, TILE_SIZE};
     for (int x = 0; x < TILE_NUM_X; x++) {
         for (int y = 0; y < TILE_NUM_Y; y++) {
-            if (grid[x][y].type == TileType::wall
-                    || grid[x][y].type == TileType::edge
-                    || grid[x][y].visibility == TileVisibility::hidden) {
+            Tile* tile = &grid[x][y];
+            if (!tile->updated) {
+                continue;
+            }
+            tile->updated = false;
+            if (tile->type == TileType::wall
+                    || tile->type == TileType::edge
+                    || tile->visibility == TileVisibility::hidden) {
                 currentTileSprite = wallSprite;
             } else {
                 currentTileSprite = openSprite;
@@ -320,12 +325,16 @@ void Map::blitMap() {
 }
 
 void Map::setTileType(const Vec2 pos, const TileType type) {
-    grid[pos.x][pos.y].type = type;
+    Tile* tile = &grid[pos.x][pos.y];
+    tile->type = type;
+    tile->updated = true;
 }
 
 void Map::setTileVisibility(
         const Vec2 pos, const TileVisibility visibility) {
-    grid[pos.x][pos.y].visibility = visibility;
+    Tile* tile = &grid[pos.x][pos.y];
+    tile->visibility = visibility;
+    tile->updated = true;
 }
 
 Tile Map::getTile(const Vec2 pos) const {

@@ -20,6 +20,7 @@ struct Tile {
     TileType type;
     TileVisibility visibility;
     Region* region;
+    bool updated;
 
     Tile(TileType _type=wall,
         TileVisibility _visibility=hidden,

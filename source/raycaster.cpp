@@ -41,7 +41,7 @@ void RayCaster::raycast(const Vec2 start, const Vec2 end) {
 inline Vec2 getDelta0(const Vec2 dim) {
     Vec2 delta = {0, 0};
     if (dim.x < 0) delta.x = -1; else if (dim.x > 1) delta.x = 1;
-    if (dim.y < 0) delta.y = -1; else if (dim.y > 1) delta.x = 1;
+    if (dim.y < 0) delta.y = -1; else if (dim.y > 1) delta.y = 1;
     return delta;
 }
 
