@@ -8,6 +8,10 @@ Vec2 Vec2::operator-(const Vec2 other) const {
     return {x - other.x, y - other.y};
 }
 
+Vec2 Vec2::operator*(const float other) const {
+    return {x * other, y * other};
+}
+
 void Vec2::operator+=(const Vec2 other) {
     x += other.x;
     y += other.y;

@@ -43,6 +43,7 @@ private:
     bool getCandidateConnector(
         const Vec2 pos, std::pair<int, int>* regions) const;
 
+public:
     void blitMap();
 public:
     Map();
@@ -50,6 +51,8 @@ public:
 
     void init();
     void setTileType(const Vec2 pos, const TileType type);
+    void setTileVisibility(
+        const Vec2 pos, const TileVisibility visibility);
     Tile getTile(const Vec2 pos) const;
     SDL_Rect* getRect();
     SDL_Surface* getSurface() const;

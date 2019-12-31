@@ -8,8 +8,9 @@ void mainLoop(ModuleManager* m) {
     bool quit = false;
     SDL_Event e;
     while (!quit) {
-        m->input->pollEvents();
-        quit = m->input->doQuit();
+        quit = m->pollInput();
+        m->runFrame();
+        m->draw();
     }
 }
 

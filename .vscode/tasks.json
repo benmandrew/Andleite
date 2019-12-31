@@ -31,6 +31,8 @@
                 "${workspaceFolder}/header/region.h",
                 "${workspaceFolder}/source/modulemanager.cpp",
                 "${workspaceFolder}/header/modulemanager.h",
+                "${workspaceFolder}/source/raycaster.cpp",
+                "${workspaceFolder}/header/raycaster.h",
                 "${workspaceFolder}/header/constants.h",
                 "-w",
                 "-lSDL2",

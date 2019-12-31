@@ -81,9 +81,15 @@ void Map::initTiles() {
         for (int y = 0; y < TILE_NUM_Y; y++) {
             if (x == 0 || y == 0 || x == TILE_NUM_X - 1
                     || y == TILE_NUM_Y - 1) {
-                grid[x][y] = Tile(TileType::edge, nullptr);
+                grid[x][y] = Tile(
+                    TileType::edge,
+                    TileVisibility::hidden,
+                    nullptr);
             } else {
-                grid[x][y] = Tile(TileType::wall, nullptr);
+                grid[x][y] = Tile(
+                    TileType::wall,
+                    TileVisibility::hidden,
+                    nullptr);
             }
         }
     }
@@ -134,7 +140,10 @@ void Map::generateRoom(
     // Blit room
     for (int y = y0; y < y1; y++) {
         for (int x = x0; x < x1; x++) {
-            grid[x][y] = Tile(TileType::open, candidateRoom);
+            grid[x][y] = Tile(
+                TileType::open,
+                TileVisibility::hidden,
+                candidateRoom);
         }
     }
 }
@@ -153,7 +162,10 @@ void Map::generateCorridor(const Vec2 startPos) {
     Region* newRegion = new Region(regionTopID++);
     regions.push_back(*newRegion);
     newRegion->setBounds(startPos, startPos);
-    grid[startPos.x][startPos.y] = Tile(TileType::open, newRegion);
+    grid[startPos.x][startPos.y] = Tile(
+        TileType::open,
+        TileVisibility::hidden,
+        newRegion);
     Vec2 currentPos = startPos;
     std::vector<Vec2> history;
     history.push_back(currentPos);
@@ -162,7 +174,7 @@ void Map::generateCorridor(const Vec2 startPos) {
         if (extendCorridor(&currentPos)) {
             history.push_back(currentPos);
             grid[currentPos.x][currentPos.y] = Tile(
-                TileType::open, newRegion);
+                TileType::open, TileVisibility::hidden, newRegion);
         } else {
             currentPos = history.back();
             history.pop_back();
@@ -288,7 +300,8 @@ void Map::blitMap() {
     for (int x = 0; x < TILE_NUM_X; x++) {
         for (int y = 0; y < TILE_NUM_Y; y++) {
             if (grid[x][y].type == TileType::wall
-                    || grid[x][y].type == TileType::edge) {
+                    || grid[x][y].type == TileType::edge
+                    || grid[x][y].visibility == TileVisibility::hidden) {
                 currentTileSprite = wallSprite;
             } else {
                 currentTileSprite = openSprite;
@@ -308,6 +321,11 @@ void Map::blitMap() {
 
 void Map::setTileType(const Vec2 pos, const TileType type) {
     grid[pos.x][pos.y].type = type;
+}
+
+void Map::setTileVisibility(
+        const Vec2 pos, const TileVisibility visibility) {
+    grid[pos.x][pos.y].visibility = visibility;
 }
 
 Tile Map::getTile(const Vec2 pos) const {

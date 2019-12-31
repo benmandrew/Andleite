@@ -11,9 +11,9 @@ Sprite::~Sprite() {
     surface = NULL;
 }
 
-void Sprite::updatePos(int tileX, int tileY) {
-    posRect.x = tileX * TILE_SIZE;
-    posRect.y = tileY * TILE_SIZE;
+void Sprite::updatePos(Vec2 pos) {
+    posRect.x = pos.x * TILE_SIZE;
+    posRect.y = pos.y * TILE_SIZE;
 }
 
 void Sprite::loadBMP(std::string path) {
@@ -55,8 +55,6 @@ SDL_Surface* Sprite::getSurface() {
     return surface;
 }
 
-
-std::map<std::string, Sprite*> sprites;
 
 void SpriteIndex::init(const std::string resourcesPath) {
     dirent *entry = nullptr;

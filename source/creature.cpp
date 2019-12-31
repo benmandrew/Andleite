@@ -2,8 +2,7 @@
 
 Creature::Creature() {
     changedPos = true;
-    x = 2;
-    y = 2;
+    pos = {2, 2};
     sprite = new Sprite();
 }
 
@@ -12,20 +11,20 @@ Creature::~Creature() {
 }
 
 void Creature::moveX(const int dx) {
-    int new_x = (x + dx + TILE_NUM_X) % TILE_NUM_X;
-    if (map->getTile({new_x, y}).type != TileType::open) {
+    int new_x = (pos.x + dx + TILE_NUM_X) % TILE_NUM_X;
+    if (map->getTile({new_x, pos.y}).type != TileType::open) {
         return;
     }
-    x = new_x;
+    pos.x = new_x;
     changedPos = true;
 }
 
 void Creature::moveY(const int dy) {
-    int new_y = (y + dy + TILE_NUM_Y) % TILE_NUM_Y;
-    if (map->getTile({x, new_y}).type != TileType::open) {
+    int new_y = (pos.y + dy + TILE_NUM_Y) % TILE_NUM_Y;
+    if (map->getTile({pos.x, new_y}).type != TileType::open) {
         return;
     }
-    y = new_y;
+    pos.y = new_y;
     changedPos = true;
 }
 
@@ -36,10 +35,14 @@ void Creature::init(const std::string spritePath, Map* _map) {
 
 Sprite* Creature::getSprite() {
     if (changedPos) {
-        sprite->updatePos(x, y);
+        sprite->updatePos(pos);
         changedPos = false;
     }
     return sprite;
+}
+
+Vec2 Creature::getPos() {
+    return pos;
 }
 
 void Creature::onNotify(int event) {

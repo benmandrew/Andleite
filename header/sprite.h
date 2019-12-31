@@ -9,6 +9,7 @@
 #include <dirent.h>
 #include <SDL2/SDL.h>
 #include "constants.h"
+#include "vec2.h"
 
 class Sprite {
 private:
@@ -24,7 +25,7 @@ public:
     static void setPixelFormat(SDL_PixelFormat* fmt);
     static SDL_PixelFormat* getPixelFormat();
 
-    void updatePos(int tileX, int tileY);
+    void updatePos(Vec2 pos);
     void loadBMP(std::string path);
     SDL_Rect* getPosRect();
     SDL_Surface* getSurface();
@@ -32,11 +33,11 @@ public:
 
 class SpriteIndex {
 private:
-    static std::map<std::string, Sprite*> sprites;
+    std::map<std::string, Sprite*> sprites;
 
 public:
-    static void init(const std::string resourcesPath);
-    static Sprite* get(const std::string id);
+    void init(const std::string resourcesPath);
+    Sprite* get(const std::string id);
 };
 
 #endif

@@ -12,7 +12,7 @@
 class Creature : public Observer {
 private:
     bool changedPos;
-    int x, y;
+    Vec2 pos;
     Sprite* sprite;
     Map* map;
 
@@ -24,6 +24,7 @@ public:
 
     void init(std::string spritePath, Map* _map);
     Sprite* getSprite();
+    Vec2 getPos();
 
     void onNotify(const int event);
 };

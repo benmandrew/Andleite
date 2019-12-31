@@ -3,20 +3,23 @@
 #pragma once
 
 #include "window.h"
-#include "map.h"
+#include "raycaster.h"
 
 struct ModuleManager {
     Window* window;
     Input* input;
     Map* map;
     Creature* player;
+    RayCaster* raycaster;
 
     ModuleManager();
     ~ModuleManager();
 
     bool init();
 
-    void blitWorld();
+    bool pollInput();
+    void draw();
+    void runFrame();
 
 };
 

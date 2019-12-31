@@ -25,4 +25,7 @@ const static std::string SLIME_BMP_PATH = "./resources/slime.bmp";
 const static std::string WALL_BMP_PATH = "./resources/wall.bmp";
 const static std::string OPEN_BMP_PATH = "./resources/floor.bmp";
 
+constexpr static int N_RAYCAST = 90;
+constexpr static float RAYCAST_DIST = 50.0f;
+
 #endif
