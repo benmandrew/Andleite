@@ -19,11 +19,12 @@ constexpr static int ROOM_MAX_SIZE = 8;
 
 constexpr static float OPEN_CONNECTOR_RATIO = 0.08f;
 
-const static std::string PLAYER_BMP_PATH = "./resources/player.bmp";
-const static std::string SLIME_BMP_PATH = "./resources/slime.bmp";
-
-const static std::string WALL_BMP_PATH = "./resources/wall.bmp";
-const static std::string OPEN_BMP_PATH = "./resources/floor.bmp";
+const static std::string RESOURCES_PATH = "./resources";
+const static std::string HIDDEN_SPR = "hidden";
+const static std::string FLOOR_SEEN_SPR = "floor_seen";
+const static std::string WALL_SEEN_SPR = "wall_seen";
+const static std::string FLOOR_VISIBLE_SPR = "floor_visible";
+const static std::string WALL_VISIBLE_SPR = "wall_visible";
 
 constexpr static int N_RAYCAST = 90;
 constexpr static float RAYCAST_DIST = 50.0f;

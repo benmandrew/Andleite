@@ -20,9 +20,9 @@ private:
     void moveY(const int dy);
 public:
     Creature();
-    ~Creature();
 
-    void init(std::string spritePath, Map* _map);
+    void init(Sprite* _sprite, Map* _map);
+
     Sprite* getSprite();
     Vec2 getPos();
 

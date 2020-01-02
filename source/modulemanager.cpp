@@ -5,6 +5,7 @@ ModuleManager::ModuleManager() {
     window = new Window();
     input = new Input();
     map = new Map();
+    spriteIndex = new SpriteIndex();
     player = new Creature();
     raycaster = new RayCaster();
 }
@@ -13,7 +14,9 @@ ModuleManager::~ModuleManager() {
     delete window;
     delete input;
     delete map;
+    delete spriteIndex;
     delete player;
+    delete raycaster;
 }
 
 bool ModuleManager::init() {
@@ -22,9 +25,10 @@ bool ModuleManager::init() {
         printf("Failed to initialise!\n");
         return false;
     }
-    map->init();
+    spriteIndex->init(RESOURCES_PATH);
+    map->init(spriteIndex);
     raycaster->init(map);
-    player->init(PLAYER_BMP_PATH, map);
+    player->init(spriteIndex->get("player"), map);
     return true;
 }
 
@@ -34,6 +38,7 @@ bool ModuleManager::pollInput() {
 }
 
 void ModuleManager::runFrame() {
+    map->visibleToSeen();
     raycaster->raycastSightlines(player->getPos());
 }
 

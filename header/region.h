@@ -25,7 +25,8 @@ struct Tile {
     Tile(TileType _type=wall,
         TileVisibility _visibility=hidden,
         Region* _region=nullptr)
-        : region(_region), visibility(_visibility), type(_type) {
+        : region(_region), visibility(_visibility),
+        type(_type), updated(true) {
     }
 };
 

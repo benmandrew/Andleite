@@ -9,6 +9,7 @@ struct ModuleManager {
     Window* window;
     Input* input;
     Map* map;
+    SpriteIndex* spriteIndex;
     Creature* player;
     RayCaster* raycaster;
 

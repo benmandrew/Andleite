@@ -46,16 +46,11 @@ Map::Map() {
 }
 
 Map::~Map() {
-    delete wallSprite;
-    delete openSprite;
     delete mapSurface;
 }
 
-void Map::init() {
-    wallSprite = new Sprite();
-    openSprite = new Sprite();
-    wallSprite->loadBMP(WALL_BMP_PATH);
-    openSprite->loadBMP(OPEN_BMP_PATH);
+void Map::init(SpriteIndex* _spriteIndex) {
+    spriteIndex = _spriteIndex;
     mapSurface = SDL_CreateRGBSurface(
         0, SCREEN_WIDTH, SCREEN_HEIGHT, 32, 0, 0, 0, 0);
     generateMap();
@@ -295,7 +290,6 @@ bool Map::getCandidateConnector(
 }
 
 void Map::blitMap() {
-    Sprite* currentTileSprite;
     SDL_Rect posRect = {0, 0, TILE_SIZE, TILE_SIZE};
     for (int x = 0; x < TILE_NUM_X; x++) {
         for (int y = 0; y < TILE_NUM_Y; y++) {
@@ -303,25 +297,50 @@ void Map::blitMap() {
             if (!tile->updated) {
                 continue;
             }
-            tile->updated = false;
-            if (tile->type == TileType::wall
-                    || tile->type == TileType::edge
-                    || tile->visibility == TileVisibility::hidden) {
-                currentTileSprite = wallSprite;
-            } else {
-                currentTileSprite = openSprite;
-            }
+            Sprite* sprite = getSpriteForTile(tile);
             posRect.x = x * TILE_SIZE;
             posRect.y = y * TILE_SIZE;
             SDL_BlitScaled(
-                currentTileSprite->getSurface(),
+                sprite->getSurface(),
                 NULL,
                 mapSurface,
                 &posRect
             );
-
         }
     }
+}
+
+void Map::visibleToSeen() {
+    for (int x = 0; x < TILE_NUM_X; x++) {
+        for (int y = 0; y < TILE_NUM_Y; y++) {
+            Tile* tile = &grid[x][y];
+            if (tile->visibility == TileVisibility::visible) {
+                tile->visibility = TileVisibility::seen;
+                tile->updated = true;
+            }
+        }
+    }
+}
+
+Sprite* Map::getSpriteForTile(Tile* tile) {
+    Sprite* sprite;
+    tile->updated = false;
+    if (tile->visibility == TileVisibility::hidden) {
+        sprite = spriteIndex->get(HIDDEN_SPR);
+    } else if (tile->visibility == TileVisibility::seen) {
+        if (tile->type == TileType::open) {
+            sprite = spriteIndex->get(FLOOR_SEEN_SPR);
+        } else {
+            sprite = spriteIndex->get(WALL_SEEN_SPR);
+        }
+    } else {
+        if (tile->type == TileType::open) {
+            sprite = spriteIndex->get(FLOOR_VISIBLE_SPR);
+        } else {
+            sprite = spriteIndex->get(WALL_VISIBLE_SPR);
+        }
+    }
+    return sprite;
 }
 
 void Map::setTileType(const Vec2 pos, const TileType type) {

@@ -21,9 +21,7 @@ private:
     std::vector<Region> regions;
     int nRegion;
     int regionTopID;
-
-    Sprite* wallSprite;
-    Sprite* openSprite;
+    SpriteIndex* spriteIndex;
 
     void generateMap();
     void initTiles();
@@ -42,14 +40,15 @@ private:
         const Direction dir) const;
     bool getCandidateConnector(
         const Vec2 pos, std::pair<int, int>* regions) const;
+    Sprite* getSpriteForTile(Tile* tile);
 
-public:
-    void blitMap();
 public:
     Map();
     ~Map();
 
-    void init();
+    void blitMap();
+    void visibleToSeen();
+    void init(SpriteIndex* _spriteIndex);
     void setTileType(const Vec2 pos, const TileType type);
     void setTileVisibility(
         const Vec2 pos, const TileVisibility visibility);

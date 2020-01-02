@@ -1,13 +1,7 @@
 #include "creature.h"
 
-Creature::Creature() {
-    changedPos = true;
-    pos = {2, 2};
-    sprite = new Sprite();
-}
-
-Creature::~Creature() {
-    delete sprite;
+Creature::Creature()
+    : changedPos(true), pos({2, 2}) {
 }
 
 void Creature::moveX(const int dx) {
@@ -28,8 +22,8 @@ void Creature::moveY(const int dy) {
     changedPos = true;
 }
 
-void Creature::init(const std::string spritePath, Map* _map) {
-    sprite->loadBMP(spritePath);
+void Creature::init(Sprite* _sprite, Map* _map) {
+    sprite = _sprite;
     map = _map;
 }
 

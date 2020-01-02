@@ -25,8 +25,8 @@ public:
     static void setPixelFormat(SDL_PixelFormat* fmt);
     static SDL_PixelFormat* getPixelFormat();
 
-    void updatePos(Vec2 pos);
-    void loadBMP(std::string path);
+    void updatePos(const Vec2 pos);
+    void loadBMP(const std::string& path);
     SDL_Rect* getPosRect();
     SDL_Surface* getSurface();
 };
@@ -35,9 +35,11 @@ class SpriteIndex {
 private:
     std::map<std::string, Sprite*> sprites;
 
+    void addSprite(const std::string& path);
+
 public:
-    void init(const std::string resourcesPath);
-    Sprite* get(const std::string id);
+    bool init(const std::string& resourcesPath);
+    Sprite* get(const std::string& id);
 };
 
 #endif
