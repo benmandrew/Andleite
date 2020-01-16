@@ -11,9 +11,8 @@
 
 class Creature : public Observer {
 private:
-    bool changedPos;
     Vec2 pos;
-    Sprite* sprite;
+    SpriteEnum sprite;
     Map* map;
 
     void moveX(const int dx);
@@ -21,10 +20,10 @@ private:
 public:
     Creature();
 
-    void init(Sprite* _sprite, Map* _map);
+    void init(SpriteEnum _sprite, Map* _map);
 
-    Sprite* getSprite();
-    Vec2 getPos();
+    SpriteEnum getSpriteEnum() const;
+    Vec2 getPos() const;
 
     void onNotify(const int event);
 };

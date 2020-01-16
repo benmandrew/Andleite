@@ -4,16 +4,31 @@
 
 #include <SDL2/SDL.h>
 #include "creature.h"
+#include "gamemanager.h"
 
 class Window {
 private:
     SDL_Window* window = NULL;
     SDL_Surface* screenSurface = NULL;
+    SpriteIndex* spriteIndex;
+
+    Vec2 worldPos;
+    float winWorldWidth = 20.0f;
+    float winWorldHeight = winWorldWidth / ASPECT_RATIO;
+    float tileScreenSize = SCREEN_WIDTH / winWorldWidth;
+    AABB mapBounds;
+
+    AABB getVisibleMapBounds();
 
 public:
     Window();
     ~Window();
     bool init(int screen_width, int screen_height);
+
+    void draw(GameManager* g);
+
+    void drawMap(Map* map);
+    void drawEntities(std::vector<Creature*> entities);
 
     void blit(Sprite* sprite);
     void blit(SDL_Surface* surface, SDL_Rect* rect);

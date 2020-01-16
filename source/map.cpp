@@ -289,27 +289,6 @@ bool Map::getCandidateConnector(
     return n == 2;
 }
 
-void Map::blitMap() {
-    SDL_Rect posRect = {0, 0, TILE_SIZE, TILE_SIZE};
-    for (int x = 0; x < TILE_NUM_X; x++) {
-        for (int y = 0; y < TILE_NUM_Y; y++) {
-            Tile* tile = &grid[x][y];
-            if (!tile->updated) {
-                continue;
-            }
-            Sprite* sprite = getSpriteForTile(tile);
-            posRect.x = x * TILE_SIZE;
-            posRect.y = y * TILE_SIZE;
-            SDL_BlitScaled(
-                sprite->getSurface(),
-                NULL,
-                mapSurface,
-                &posRect
-            );
-        }
-    }
-}
-
 void Map::visibleToSeen() {
     for (int x = 0; x < TILE_NUM_X; x++) {
         for (int y = 0; y < TILE_NUM_Y; y++) {
@@ -358,6 +337,18 @@ void Map::setTileVisibility(
 
 Tile Map::getTile(const Vec2 pos) const {
     return grid[pos.x][pos.y];
+}
+
+Sprite* Map::getSpriteForPos(const Vec2 pos) {
+    Tile* tile = &getTile(pos);
+    if (tile == nullptr) {
+        return nullptr;
+    }
+    /*
+    if (!tile->updated) {
+        return nullptr;
+    }*/
+    return getSpriteForTile(tile);
 }
 
 SDL_Rect* Map::getRect() {

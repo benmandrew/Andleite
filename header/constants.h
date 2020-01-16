@@ -11,7 +11,7 @@ constexpr static float ASPECT_RATIO = SCREEN_WIDTH / (float)SCREEN_HEIGHT;
 constexpr static int TILE_NUM_X = 45;
 constexpr static int TILE_NUM_Y = (int)(TILE_NUM_X / ASPECT_RATIO);
 
-constexpr static int TILE_SIZE = SCREEN_WIDTH / TILE_NUM_X;
+//constexpr static int TILE_SCREEN_SIZE = SCREEN_WIDTH / TILE_NUM_X;
 
 constexpr static int ROOM_ATTEMPT_NUM = 200;
 constexpr static int ROOM_MIN_SIZE = 4;
@@ -28,5 +28,14 @@ const static std::string WALL_VISIBLE_SPR = "wall_visible";
 
 constexpr static int N_RAYCAST = 90;
 constexpr static float RAYCAST_DIST = 50.0f;
+
+enum SpriteEnum {
+    HIDDEN,
+    SEEN_WALL,
+    VISIBLE_WALL,
+    SEEN_FLOOR,
+    VISIBLE_FLOOR,
+    PLAYER
+};
 
 #endif

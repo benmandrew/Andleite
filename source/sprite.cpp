@@ -3,7 +3,7 @@
 SDL_PixelFormat* Sprite::pixelFormat = NULL;
 
 Sprite::Sprite() {
-    posRect = {0, 0, TILE_SIZE, TILE_SIZE};
+    posRect = {0, 0, TILE_SCREEN_SIZE, TILE_SCREEN_SIZE};
 }
 
 Sprite::~Sprite() {
@@ -12,8 +12,8 @@ Sprite::~Sprite() {
 }
 
 void Sprite::updatePos(const Vec2 pos) {
-    posRect.x = pos.x * TILE_SIZE;
-    posRect.y = pos.y * TILE_SIZE;
+    posRect.x = pos.x * TILE_SCREEN_SIZE;
+    posRect.y = pos.y * TILE_SCREEN_SIZE;
 }
 
 void Sprite::loadBMP(const std::string& path) {
@@ -93,8 +93,8 @@ bool SpriteIndex::init(const std::string& resourcesPath) {
     return true;
 }
 
-Sprite* SpriteIndex::get(const std::string& id) {
-    auto found = sprites.find(id);
+Sprite* SpriteIndex::get(const SpriteEnum sprite) const {
+    auto found = sprites.find(sprite);
     // Raise an error if not in the map
     assert(found != sprites.end());
     return found->second;

@@ -53,6 +53,7 @@ public:
     void setTileVisibility(
         const Vec2 pos, const TileVisibility visibility);
     Tile getTile(const Vec2 pos) const;
+    Sprite* getSpriteForPos(const Vec2 pos);
     SDL_Rect* getRect();
     SDL_Surface* getSurface() const;
 };

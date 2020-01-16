@@ -33,13 +33,13 @@ public:
 
 class SpriteIndex {
 private:
-    std::map<std::string, Sprite*> sprites;
+    std::map<SpriteEnum, Sprite*> sprites;
 
     void addSprite(const std::string& path);
 
 public:
     bool init(const std::string& resourcesPath);
-    Sprite* get(const std::string& id);
+    Sprite* get(const SpriteEnum sprite) const;
 };
 
 #endif

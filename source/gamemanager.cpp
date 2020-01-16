@@ -1,25 +1,23 @@
 
-#include "modulemanager.h"
+#include "gamemanager.h"
 
-ModuleManager::ModuleManager() {
-    window = new Window();
+GameManager::GameManager() {
     input = new Input();
     map = new Map();
-    spriteIndex = new SpriteIndex();
     player = new Creature();
+    entities.push_back(player);
     raycaster = new RayCaster();
 }
 
-ModuleManager::~ModuleManager() {
-    delete window;
+GameManager::~GameManager() {
     delete input;
     delete map;
-    delete spriteIndex;
     delete player;
     delete raycaster;
 }
 
-bool ModuleManager::init() {
+bool GameManager::init() {
+    input->addObserver(this);
     input->addObserver(player);
     if (!window->init(SCREEN_WIDTH, SCREEN_HEIGHT)) {
         printf("Failed to initialise!\n");
@@ -28,24 +26,16 @@ bool ModuleManager::init() {
     spriteIndex->init(RESOURCES_PATH);
     map->init(spriteIndex);
     raycaster->init(map);
-    player->init(spriteIndex->get("player"), map);
+    player->init(SpriteEnum::PLAYER, map);
     return true;
 }
 
-bool ModuleManager::pollInput() {
+bool GameManager::pollInput() {
     input->pollEvents();
     return input->doQuit();
 }
 
-void ModuleManager::runFrame() {
+void GameManager::runFrame() {
     map->visibleToSeen();
     raycaster->raycastSightlines(player->getPos());
-}
-
-void ModuleManager::draw() {
-    window->clear();
-    map->blitMap();
-    window->blit(map->getSurface(), map->getRect());
-    window->blit(player->getSprite());
-    window->flip();
 }

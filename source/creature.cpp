@@ -1,7 +1,7 @@
 #include "creature.h"
 
 Creature::Creature()
-    : changedPos(true), pos({2, 2}) {
+    : pos({2, 2}) {
 }
 
 void Creature::moveX(const int dx) {
@@ -10,7 +10,6 @@ void Creature::moveX(const int dx) {
         return;
     }
     pos.x = new_x;
-    changedPos = true;
 }
 
 void Creature::moveY(const int dy) {
@@ -19,23 +18,18 @@ void Creature::moveY(const int dy) {
         return;
     }
     pos.y = new_y;
-    changedPos = true;
 }
 
-void Creature::init(Sprite* _sprite, Map* _map) {
+void Creature::init(SpriteEnum _sprite, Map* _map) {
     sprite = _sprite;
     map = _map;
 }
 
-Sprite* Creature::getSprite() {
-    if (changedPos) {
-        sprite->updatePos(pos);
-        changedPos = false;
-    }
+SpriteEnum Creature::getSpriteEnum() const {
     return sprite;
 }
 
-Vec2 Creature::getPos() {
+Vec2 Creature::getPos() const {
     return pos;
 }
 

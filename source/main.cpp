@@ -2,11 +2,10 @@
 #include <stdio.h>
 #include <string>
 
-#include "modulemanager.h"
+#include "gamemanager.h"
 
-void mainLoop(ModuleManager* m) {
+void mainLoop(GameManager* m) {
     bool quit = false;
-    SDL_Event e;
     while (!quit) {
         quit = m->pollInput();
         m->runFrame();
@@ -15,11 +14,13 @@ void mainLoop(ModuleManager* m) {
 }
 
 int main(int argc, char* args[]) {
-    ModuleManager* m = new ModuleManager();
-    if (m->init()) {
-        mainLoop(m);
+    Window* w = new Window();
+    GameManager* g = new GameManager();
+    if (g->init() && w->init(SCREEN_WIDTH, SCREEN_HEIGHT)) {
+        mainLoop(g);
     }
-    delete m;
+    delete w;
+    delete g;
     SDL_Quit();
     return 0;
 }
