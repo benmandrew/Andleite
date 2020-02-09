@@ -3,6 +3,7 @@
 #include <string>
 
 #include "gamemanager.h"
+#include "window.h"
 
 void mainLoop(GameManager* m) {
     bool quit = false;

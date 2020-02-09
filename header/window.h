@@ -3,14 +3,15 @@
 #pragma once
 
 #include <SDL2/SDL.h>
-#include "creature.h"
 #include "gamemanager.h"
+#include "maprenderer.h"
 
 class Window {
 private:
     SDL_Window* window = NULL;
     SDL_Surface* screenSurface = NULL;
     SpriteIndex* spriteIndex;
+    MapRenderer* mapRenderer;
 
     Vec2 worldPos;
     float winWorldWidth = 20.0f;

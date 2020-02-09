@@ -41,20 +41,14 @@ Cardinal moveDirections[] = {
 
 Map::Map() {
     srand(time(NULL));
-    mapPosRect = {0, 0, SCREEN_WIDTH, SCREEN_HEIGHT};
     nRegion = 0;
 }
 
 Map::~Map() {
-    delete mapSurface;
 }
 
-void Map::init(SpriteIndex* _spriteIndex) {
-    spriteIndex = _spriteIndex;
-    mapSurface = SDL_CreateRGBSurface(
-        0, SCREEN_WIDTH, SCREEN_HEIGHT, 32, 0, 0, 0, 0);
+void Map::init() {
     generateMap();
-    blitMap();
 }
 
 void Map::generateMap() {
@@ -349,12 +343,4 @@ Sprite* Map::getSpriteForPos(const Vec2 pos) {
         return nullptr;
     }*/
     return getSpriteForTile(tile);
-}
-
-SDL_Rect* Map::getRect() {
-    return &mapPosRect;
-}
-
-SDL_Surface* Map::getSurface() const {
-    return mapSurface;
 }

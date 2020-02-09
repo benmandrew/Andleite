@@ -15,13 +15,10 @@ enum Direction {
 
 class Map {
 private:
-    SDL_Rect mapPosRect;
-    SDL_Surface* mapSurface;
     Tile grid[TILE_NUM_X][TILE_NUM_Y];
     std::vector<Region> regions;
     int nRegion;
     int regionTopID;
-    SpriteIndex* spriteIndex;
 
     void generateMap();
     void initTiles();
@@ -48,14 +45,11 @@ public:
 
     void blitMap();
     void visibleToSeen();
-    void init(SpriteIndex* _spriteIndex);
+    void init();
     void setTileType(const Vec2 pos, const TileType type);
     void setTileVisibility(
         const Vec2 pos, const TileVisibility visibility);
     Tile getTile(const Vec2 pos) const;
-    Sprite* getSpriteForPos(const Vec2 pos);
-    SDL_Rect* getRect();
-    SDL_Surface* getSurface() const;
 };
 
 #endif

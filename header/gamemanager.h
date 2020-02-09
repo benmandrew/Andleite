@@ -2,11 +2,13 @@
 #define __GAMEMANAGER_H_INCLUDED__
 #pragma once
 
-#include "window.h"
+#include "observer.h"
+#include "input.h"
+#include "creature.h"
 #include "raycaster.h"
 
-struct GameManager : Observer {
-    Window* window;
+class GameManager : Observer {
+public:
     Input* input;
     Map* map;
     Creature* player;
@@ -22,6 +24,8 @@ struct GameManager : Observer {
     bool pollInput();
     void draw();
     void runFrame();
+
+    void onNotify(int event);
 
 };
 

@@ -19,12 +19,7 @@ GameManager::~GameManager() {
 bool GameManager::init() {
     input->addObserver(this);
     input->addObserver(player);
-    if (!window->init(SCREEN_WIDTH, SCREEN_HEIGHT)) {
-        printf("Failed to initialise!\n");
-        return false;
-    }
-    spriteIndex->init(RESOURCES_PATH);
-    map->init(spriteIndex);
+    map->init();
     raycaster->init(map);
     player->init(SpriteEnum::PLAYER, map);
     return true;

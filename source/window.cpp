@@ -35,6 +35,7 @@ bool Window::init(int screen_width, int screen_height) {
             Sprite::setPixelFormat(getPixelFormat());
             mapBounds = getVisibleMapBounds();
             spriteIndex = new SpriteIndex();
+            spriteIndex->init(RESOURCES_PATH);
         }
     }
     return success;
@@ -55,26 +56,6 @@ void Window::draw(GameManager* g) {
     flip();
 }
 
-void Window::drawMap(Map* map) {
-    SDL_Rect posRect = {0, 0, tileScreenSize, tileScreenSize};
-    for (int x = mapBounds.topLeft.x; x <= mapBounds.bottomRight.x; x++) {
-        for (int y = mapBounds.topLeft.y; y <= mapBounds.bottomRight.y; y++) {
-            Sprite* sprite = map->getSpriteForPos({x, y});
-            if (sprite == nullptr) {
-                continue;
-            }
-            posRect.x = (x - mapBounds.topLeft.x) * tileScreenSize;
-            posRect.y = (y - mapBounds.topLeft.y) * tileScreenSize;
-            SDL_BlitScaled(
-                sprite->getSurface(),
-                NULL,
-                screenSurface,
-                &posRect
-            );
-        }
-    }
-}
-
 void Window::drawEntities(std::vector<Creature*> entities) {
     SDL_Rect posRect = {0, 0, tileScreenSize, tileScreenSize};
     for (Creature* entity : entities) {
@@ -82,7 +63,9 @@ void Window::drawEntities(std::vector<Creature*> entities) {
         posRect.x = (p.x - mapBounds.topLeft.x) * tileScreenSize;
         posRect.y = (p.y - mapBounds.topLeft.y) * tileScreenSize;
         SDL_BlitScaled(
-            spriteIndex->get(entity->getSpriteEnum());
+            spriteIndex->get(
+                entity->getSpriteEnum()
+            )->getSurface(),
             NULL,
             screenSurface,
             &posRect
