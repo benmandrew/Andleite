@@ -48,7 +48,7 @@ public:
     void setTileType(const IVec2 pos, const TileType type);
     void setTileVisibility(
         const IVec2 pos, const TileVisibility visibility);
-    Tile getTile(const IVec2 pos) const;
+    Tile* getTile(const IVec2 pos);
 };
 
 #endif

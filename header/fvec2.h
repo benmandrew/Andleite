@@ -2,6 +2,8 @@
 #define __FVEC2_H_INCLUDED__
 #pragma once
 
+#include "ivec2.h"
+
 class FVec2 {
 public:
     float x, y;
@@ -13,6 +15,7 @@ public:
     void operator+=(const FVec2 other);
 
     bool operator!=(const FVec2 other);
+    IVec2 toInt();
 };
 
 #endif

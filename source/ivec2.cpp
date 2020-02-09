@@ -21,6 +21,10 @@ bool IVec2::operator!=(const IVec2 other) {
     return x != other.x || y != other.y;
 }
 
+FVec2 IVec2::toFloat() {
+    return {x, y};
+}
+
 bool AABB::collidesWith(const AABB other, const bool expand) const {
     const int buffer = expand ? 1 : 0;
     return (

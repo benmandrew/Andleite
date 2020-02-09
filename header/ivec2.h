@@ -3,6 +3,7 @@
 #pragma once
 
 #include <algorithm>
+#include "fvec2.h"
 
 class IVec2 {
 public:
@@ -15,6 +16,8 @@ public:
     void operator+=(const IVec2 other);
 
     bool operator!=(const IVec2 other);
+
+    FVec2 toFloat();
 };
 
 struct AABB {

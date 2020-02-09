@@ -295,27 +295,6 @@ void Map::visibleToSeen() {
     }
 }
 
-Sprite* Map::getSpriteForTile(Tile* tile) {
-    Sprite* sprite;
-    tile->updated = false;
-    if (tile->visibility == TileVisibility::hidden) {
-        sprite = spriteIndex->get(HIDDEN_SPR);
-    } else if (tile->visibility == TileVisibility::seen) {
-        if (tile->type == TileType::open) {
-            sprite = spriteIndex->get(FLOOR_SEEN_SPR);
-        } else {
-            sprite = spriteIndex->get(WALL_SEEN_SPR);
-        }
-    } else {
-        if (tile->type == TileType::open) {
-            sprite = spriteIndex->get(FLOOR_VISIBLE_SPR);
-        } else {
-            sprite = spriteIndex->get(WALL_VISIBLE_SPR);
-        }
-    }
-    return sprite;
-}
-
 void Map::setTileType(const IVec2 pos, const TileType type) {
     Tile* tile = &grid[pos.x][pos.y];
     tile->type = type;
@@ -329,18 +308,9 @@ void Map::setTileVisibility(
     tile->updated = true;
 }
 
-Tile Map::getTile(const IVec2 pos) const {
-    return grid[pos.x][pos.y];
-}
-
-Sprite* Map::getSpriteForPos(const IVec2 pos) {
-    Tile* tile = &getTile(pos);
-    if (tile == nullptr) {
+Tile* Map::getTile(const IVec2 pos) {
+    if (pos.x < 0 || pos.y < 0 || pos.x >= TILE_NUM_X || pos.y >= TILE_NUM_Y) {
         return nullptr;
     }
-    /*
-    if (!tile->updated) {
-        return nullptr;
-    }*/
-    return getSpriteForTile(tile);
+    return &(grid[pos.x][pos.y]);
 }

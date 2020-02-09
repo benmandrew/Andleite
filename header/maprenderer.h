@@ -7,18 +7,20 @@
 
 class MapRenderer {
     SDL_Surface* surface;
-    IVec2 viewCenter;
-    FVec2 viewLimits;
+    IVec2 worldViewCenter;
+    FVec2 screenLimits;
     float aspectRatio;
-    float worldViewHeight;
+    float verticalZoom;
+    FVec2 worldViewLimits;
     float tileScreenSize;
 
     AABB getVisibleBounds();
-    IVec2 getTileScreenPos(IVec2 tileWorldPos);
+    IVec2 getTileScreenRect(IVec2 tileWorldPos, SDL_Rect* rect);
+    Sprite* getSpriteForTile(Tile* tile, SpriteIndex* spriteIndex);
 public:
     MapRenderer();
     ~MapRenderer();
-    SDL_Surface* drawToSurface(Map* map);
+    SDL_Surface* drawToSurface(Map* map, SpriteIndex* spriteIndex);
 };
 
 #endif

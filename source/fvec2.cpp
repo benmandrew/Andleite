@@ -20,3 +20,7 @@ void FVec2::operator+=(const FVec2 other) {
 bool FVec2::operator!=(const FVec2 other) {
     return x != other.x || y != other.y;
 }
+
+IVec2 FVec2::toInt() {
+    return {x, y};
+}
