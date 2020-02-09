@@ -59,7 +59,7 @@ void Window::draw(GameManager* g) {
 void Window::drawEntities(std::vector<Creature*> entities) {
     SDL_Rect posRect = {0, 0, tileScreenSize, tileScreenSize};
     for (Creature* entity : entities) {
-        Vec2 p = entity->getPos();
+        IVec2 p = entity->getPos();
         posRect.x = (p.x - mapBounds.topLeft.x) * tileScreenSize;
         posRect.y = (p.y - mapBounds.topLeft.y) * tileScreenSize;
         SDL_BlitScaled(

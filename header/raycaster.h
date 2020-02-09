@@ -6,20 +6,20 @@
 #include <vector>
 
 #include "constants.h"
-#include "vec2.h"
+#include "ivec2.h"
 #include "map.h"
 
 class RayCaster {
-    Vec2 raycastOffsets[N_RAYCAST];
+    IVec2 raycastOffsets[N_RAYCAST];
     Map* map;
 
 public:
     RayCaster();
     void init(Map* _map);
 
-    void raycastSightlines(const Vec2 origin);
-    void raycast(const Vec2 start, const Vec2 end);
-    bool isWallCollision(const Vec2 pos);
+    void raycastSightlines(const IVec2 origin);
+    void raycast(const IVec2 start, const IVec2 end);
+    bool isWallCollision(const IVec2 pos);
 };
 
 #endif

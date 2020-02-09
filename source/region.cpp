@@ -10,7 +10,7 @@ int Region::getID() const {
     return id;
 }
 
-void Region::addTile(Vec2 tilePos) {
+void Region::addTile(IVec2 tilePos) {
     AABB single = {tilePos, tilePos};
     // Create an AABB of a single tile so that I
     // don't have to rewrite the intersection code
@@ -20,7 +20,7 @@ void Region::addTile(Vec2 tilePos) {
     bounds = bounds.getUnion(single);
 }
 
-void Region::setBounds(Vec2 topLeft, Vec2 bottomRight) {
+void Region::setBounds(IVec2 topLeft, IVec2 bottomRight) {
     bounds = {topLeft, bottomRight};
 }
 

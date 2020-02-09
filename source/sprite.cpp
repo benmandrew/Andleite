@@ -11,7 +11,7 @@ Sprite::~Sprite() {
     surface = NULL;
 }
 
-void Sprite::updatePos(const Vec2 pos) {
+void Sprite::updatePos(const IVec2 pos) {
     posRect.x = pos.x * TILE_SCREEN_SIZE;
     posRect.y = pos.y * TILE_SCREEN_SIZE;
 }

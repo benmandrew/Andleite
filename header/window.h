@@ -13,7 +13,7 @@ private:
     SpriteIndex* spriteIndex;
     MapRenderer* mapRenderer;
 
-    Vec2 worldPos;
+    IVec2 worldPos;
     float winWorldWidth = 20.0f;
     float winWorldHeight = winWorldWidth / ASPECT_RATIO;
     float tileScreenSize = SCREEN_WIDTH / winWorldWidth;

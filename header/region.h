@@ -3,7 +3,7 @@
 #pragma once
 
 #include <vector>
-#include "vec2.h"
+#include "ivec2.h"
 
 class Region;
 class Map;
@@ -38,8 +38,8 @@ public:
     Region(int topID);
 
     int getID() const;
-    void addTile(Vec2 tilePos);
-    void setBounds(Vec2 topLeft, Vec2 bottomRight);
+    void addTile(IVec2 tilePos);
+    void setBounds(IVec2 topLeft, IVec2 bottomRight);
     bool boundsCollide(
         const Region other, const bool expand=false) const;
 
@@ -48,7 +48,7 @@ public:
 };
 
 struct Connector {
-    Vec2 pos;
+    IVec2 pos;
     int left;
     int right;
 };

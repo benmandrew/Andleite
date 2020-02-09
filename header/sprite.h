@@ -9,7 +9,7 @@
 #include <dirent.h>
 #include <SDL2/SDL.h>
 #include "constants.h"
-#include "vec2.h"
+#include "ivec2.h"
 
 class Sprite {
 private:
@@ -25,7 +25,7 @@ public:
     static void setPixelFormat(SDL_PixelFormat* fmt);
     static SDL_PixelFormat* getPixelFormat();
 
-    void updatePos(const Vec2 pos);
+    void updatePos(const IVec2 pos);
     void loadBMP(const std::string& path);
     SDL_Rect* getPosRect();
     SDL_Surface* getSurface();

@@ -29,7 +29,7 @@ SpriteEnum Creature::getSpriteEnum() const {
     return sprite;
 }
 
-Vec2 Creature::getPos() const {
+IVec2 Creature::getPos() const {
     return pos;
 }
 

@@ -11,7 +11,7 @@
 
 class Creature : public Observer {
 private:
-    Vec2 pos;
+    IVec2 pos;
     SpriteEnum sprite;
     Map* map;
 
@@ -23,7 +23,7 @@ public:
     void init(SpriteEnum _sprite, Map* _map);
 
     SpriteEnum getSpriteEnum() const;
-    Vec2 getPos() const;
+    IVec2 getPos() const;
 
     void onNotify(const int event);
 };

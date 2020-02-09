@@ -7,28 +7,28 @@ constexpr int nAdjOffsets = 9;
 constexpr int nAdjOffsetsDir = 6;
 
 struct Cardinal {
-    Vec2 offset;
+    IVec2 offset;
     Direction dir;
 };
 
-Vec2 adjOffsets[] = {
+IVec2 adjOffsets[] = {
     {0, 0}, {0, 1}, {1, 1}, {1, 0}, {1, -1},
     {0, -1}, {-1, -1}, {-1, 0}, {-1, 1}
 };
-Vec2 adjOffsetsNorth[] = {
+IVec2 adjOffsetsNorth[] = {
     {0, 0}, {-1, 0}, {-1, -1}, {0, -1}, {1, -1}, {1, 0}
 };
-Vec2 adjOffsetsEast[] = {
+IVec2 adjOffsetsEast[] = {
     {0, 0}, {0, -1}, {1, -1}, {1, 0}, {1, 1}, {0, 1}
 };
-Vec2 adjOffsetsSouth[] = {
+IVec2 adjOffsetsSouth[] = {
     {0, 0}, {-1, 0}, {-1, 1}, {0, 1}, {1, 1}, {1, 0}
 };
-Vec2 adjOffsetsWest[] = {
+IVec2 adjOffsetsWest[] = {
     {0, 0}, {0, -1}, {-1, -1}, {-1, 0}, {-1, 1}, {0, 1}
 };
 
-Vec2 adjOffsetsNoDiag[] = {
+IVec2 adjOffsetsNoDiag[] = {
     {0, 0}, {0, 1}, {1, 0}, {0, -1}, {-1, 0}
 };
 
@@ -56,7 +56,7 @@ void Map::generateMap() {
     generateRooms();
     for (int x = 1; x < TILE_NUM_X - 1; x++) {
         for (int y = 1; y < TILE_NUM_Y - 1; y++) {
-            Vec2 pos{x, y};
+            IVec2 pos{x, y};
             if (!adjacentToOpen(pos)) {
                 generateCorridor(pos);
             }
@@ -147,7 +147,7 @@ void shuffleDirections() {
     }
 }
 
-void Map::generateCorridor(const Vec2 startPos) {
+void Map::generateCorridor(const IVec2 startPos) {
     Region* newRegion = new Region(regionTopID++);
     regions.push_back(*newRegion);
     newRegion->setBounds(startPos, startPos);
@@ -155,8 +155,8 @@ void Map::generateCorridor(const Vec2 startPos) {
         TileType::open,
         TileVisibility::hidden,
         newRegion);
-    Vec2 currentPos = startPos;
-    std::vector<Vec2> history;
+    IVec2 currentPos = startPos;
+    std::vector<IVec2> history;
     history.push_back(currentPos);
     // Depth-first recursive maze generation
     do {
@@ -172,7 +172,7 @@ void Map::generateCorridor(const Vec2 startPos) {
     nRegion++;
 }
 
-bool Map::extendCorridor(Vec2* currentPos) {
+bool Map::extendCorridor(IVec2* currentPos) {
     // Attempt to extend the corridor in a random order of directions
     shuffleDirections();
     for (Cardinal offset : moveDirections) {
@@ -202,7 +202,7 @@ std::vector<Connector> Map::getConnectors() {
     std::pair<int, int> regions;
     for (int x = 2; x < TILE_NUM_X - 2; x++) {
         for (int y = 2; y < TILE_NUM_Y - 2; y++) {
-            Vec2 pos = {x, y};
+            IVec2 pos = {x, y};
             if (!getCandidateConnector(pos, &regions)) {
                 continue;
             }
@@ -215,9 +215,9 @@ std::vector<Connector> Map::getConnectors() {
     return connectors;
 }
 
-Vec2* getOffsets(const Direction dir) {
+IVec2* getOffsets(const Direction dir) {
     // Get the array of offsets specific to direction
-    Vec2* offsets = &adjOffsets[0];
+    IVec2* offsets = &adjOffsets[0];
     if (dir != -1) {
         switch (dir) {
         case Direction::north:
@@ -237,16 +237,16 @@ Vec2* getOffsets(const Direction dir) {
     return offsets;
 }
 
-bool Map::adjacentToOpen(const Vec2 pos) const {
+bool Map::adjacentToOpen(const IVec2 pos) const {
     return adjacentToOpenInDirection(pos, {0, 0}, (Direction)(-1));
 }
 
 bool Map::adjacentToOpenInDirection(
-        const Vec2 pos, const Vec2 offset, const Direction dir) const {
+        const IVec2 pos, const IVec2 offset, const Direction dir) const {
     int n = (dir == -1) ? nAdjOffsets : nAdjOffsetsDir;
-    Vec2* offsets = getOffsets(dir);
+    IVec2* offsets = getOffsets(dir);
     for (int i = 0; i < n; i++) {
-        Vec2 p = pos + offset + offsets[i];
+        IVec2 p = pos + offset + offsets[i];
         Tile tile = grid[p.x][p.y];
         if (tile.type != TileType::wall) {
             return true;
@@ -256,13 +256,13 @@ bool Map::adjacentToOpenInDirection(
 }
 
 bool Map::getCandidateConnector(
-        const Vec2 pos, std::pair<int, int>* regions) const {
-    const int nOffset = sizeof(adjOffsetsNoDiag) / sizeof(Vec2);
+        const IVec2 pos, std::pair<int, int>* regions) const {
+    const int nOffset = sizeof(adjOffsetsNoDiag) / sizeof(IVec2);
     int n = 0;
     int r1 = -1;
     int r2 = -1;
     for (int i = 0; i < nOffset; i++) {
-        Vec2 p = pos + adjOffsetsNoDiag[i];
+        IVec2 p = pos + adjOffsetsNoDiag[i];
         Tile tile = grid[p.x][p.y];
         if (tile.type == TileType::open && tile.region != nullptr) {
             if (r1 != -1 && r2 != -1) {
@@ -316,24 +316,24 @@ Sprite* Map::getSpriteForTile(Tile* tile) {
     return sprite;
 }
 
-void Map::setTileType(const Vec2 pos, const TileType type) {
+void Map::setTileType(const IVec2 pos, const TileType type) {
     Tile* tile = &grid[pos.x][pos.y];
     tile->type = type;
     tile->updated = true;
 }
 
 void Map::setTileVisibility(
-        const Vec2 pos, const TileVisibility visibility) {
+        const IVec2 pos, const TileVisibility visibility) {
     Tile* tile = &grid[pos.x][pos.y];
     tile->visibility = visibility;
     tile->updated = true;
 }
 
-Tile Map::getTile(const Vec2 pos) const {
+Tile Map::getTile(const IVec2 pos) const {
     return grid[pos.x][pos.y];
 }
 
-Sprite* Map::getSpriteForPos(const Vec2 pos) {
+Sprite* Map::getSpriteForPos(const IVec2 pos) {
     Tile* tile = &getTile(pos);
     if (tile == nullptr) {
         return nullptr;

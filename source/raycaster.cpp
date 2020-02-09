@@ -14,16 +14,16 @@ void RayCaster::init(Map* _map) {
     }
 }
 
-void RayCaster::raycastSightlines(const Vec2 origin) {
+void RayCaster::raycastSightlines(const IVec2 origin) {
     for (int i = 0; i < N_RAYCAST; i++) {
         raycast(origin, origin + raycastOffsets[i]);
     }
 }
 /*
-void RayCaster::raycast(const Vec2 start, const Vec2 end) {
+void RayCaster::raycast(const IVec2 start, const IVec2 end) {
     bool wallCollision = false;
-    Vec2 delta = end - start;
-    Vec2 pos = start;
+    IVec2 delta = end - start;
+    IVec2 pos = start;
     int p = 2 * delta.y - delta.x;
     while (!wallCollision && pos.x < end.x) {
         map->setTileVisibility(pos, TileVisibility::visible);
@@ -38,15 +38,15 @@ void RayCaster::raycast(const Vec2 start, const Vec2 end) {
     }
 }*/
 
-inline Vec2 getDelta0(const Vec2 dim) {
-    Vec2 delta = {0, 0};
+inline IVec2 getDelta0(const IVec2 dim) {
+    IVec2 delta = {0, 0};
     if (dim.x < 0) delta.x = -1; else if (dim.x > 1) delta.x = 1;
     if (dim.y < 0) delta.y = -1; else if (dim.y > 1) delta.y = 1;
     return delta;
 }
 
-inline Vec2 getDelta1(const Vec2 dim, const bool swapAxes) {
-    Vec2 delta = {0 ,0};
+inline IVec2 getDelta1(const IVec2 dim, const bool swapAxes) {
+    IVec2 delta = {0 ,0};
     if (dim.x < 0) delta.x = -1; else if (dim.x > 1) delta.x = 1;
     if (swapAxes) {
         if (dim.y < 0) delta.y = -1; else if (dim.y > 0) delta.y = 1;
@@ -55,9 +55,9 @@ inline Vec2 getDelta1(const Vec2 dim, const bool swapAxes) {
     return delta;
 }
 
-void RayCaster::raycast(const Vec2 start, const Vec2 end) {
-    Vec2 pos = start;
-    const Vec2 dim = end - start;
+void RayCaster::raycast(const IVec2 start, const IVec2 end) {
+    IVec2 pos = start;
+    const IVec2 dim = end - start;
     int longest = abs(dim.x);
     int shortest = abs(dim.y);
     bool wallCollision = false;
@@ -66,8 +66,8 @@ void RayCaster::raycast(const Vec2 start, const Vec2 end) {
         longest = abs(dim.y);
         shortest = abs(dim.x);
     }
-    const Vec2 delta0 = getDelta0(dim);
-    const Vec2 delta1 = getDelta1(dim, swapAxes);
+    const IVec2 delta0 = getDelta0(dim);
+    const IVec2 delta1 = getDelta1(dim, swapAxes);
 
     int numerator = longest >> 1 ;
     int i = 0;
@@ -85,6 +85,6 @@ void RayCaster::raycast(const Vec2 start, const Vec2 end) {
     }
 }
 
-bool RayCaster::isWallCollision(const Vec2 pos) {
+bool RayCaster::isWallCollision(const IVec2 pos) {
     return map->getTile(pos).type == TileType::wall;
 }
