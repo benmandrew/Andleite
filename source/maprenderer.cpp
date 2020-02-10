@@ -3,9 +3,11 @@
 
 MapRenderer::MapRenderer() {
     surface = new SDL_Surface();
-    viewCenter = {0, 0};
-    viewLimits = {SCREEN_WIDTH / 2.0f, SCREEN_HEIGHT / 2.0f};
-    worldViewHeight = 25.0f;
+    screenLimits = {SCREEN_WIDTH / 2.0f, SCREEN_HEIGHT / 2.0f};
+    aspectRatio = SCREEN_WIDTH / (float) SCREEN_HEIGHT;
+    verticalZoom = 25.0f;
+    worldViewCenter = {5, 5};
+    worldViewLimits = {verticalZoom * aspectRatio, verticalZoom};
 }
 
 MapRenderer::~MapRenderer() {
@@ -51,23 +53,42 @@ Sprite* MapRenderer::getSpriteForTile(Tile* tile, SpriteIndex* spriteIndex) {
     return sprite;
 }
 
-SDL_Surface* MapRenderer::drawToSurface(Map* map, SpriteIndex* spriteIndex) {
-    AABB mapBounds = getVisibleBounds();
-    SDL_Rect tileRect = {0, 0, tileScreenSize, tileScreenSize};
-    for (int x = mapBounds.topLeft.x; x <= mapBounds.bottomRight.x; x++) {
-        for (int y = mapBounds.topLeft.y; y <= mapBounds.bottomRight.y; y++) {
+void MapRenderer::drawMap(AABB* mapBounds, SDL_Rect* tileRect, Map* map, SpriteIndex* spriteIndex) {
+    for (int x = (*mapBounds).topLeft.x; x <= (*mapBounds).bottomRight.x; x++) {
+        for (int y = (*mapBounds).topLeft.y; y <= (*mapBounds).bottomRight.y; y++) {
             Tile* tile = map->getTile({x, y});
             if (tile == nullptr) continue;
             if (!tile->updated) continue;
             Sprite* sprite = getSpriteForTile(tile, spriteIndex);
-            getTileScreenRect({x, y}, &tileRect);
+            getTileScreenRect({x, y}, tileRect);
             SDL_BlitScaled(
                 sprite->getSurface(),
                 NULL,
                 surface,
-                &tileRect
+                tileRect
             );
         }
+    }
+}
+
+void MapRenderer::drawEntity(Creature* entity, AABB* mapBounds, SDL_Rect* tileRect, SpriteIndex* spriteIndex) {
+    getTileScreenRect(entity->getPos(), tileRect);
+    SDL_BlitScaled(
+        spriteIndex->get(
+            entity->getSpriteEnum()
+        )->getSurface(),
+        NULL,
+        surface,
+        tileRect
+    );
+}
+
+SDL_Surface* MapRenderer::drawToSurface(std::vector<Creature*> entities, Map* map, SpriteIndex* spriteIndex) {
+    AABB mapBounds = getVisibleBounds();
+    SDL_Rect tileRect = {0, 0, tileScreenSize, tileScreenSize};
+    drawMap(&mapBounds, &tileRect, map, spriteIndex);
+    for (Creature* entity : entities) {
+        drawEntity(entity, &mapBounds, &tileRect, spriteIndex);
     }
     return surface;
 }

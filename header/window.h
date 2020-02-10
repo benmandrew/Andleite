@@ -13,13 +13,7 @@ private:
     SpriteIndex* spriteIndex;
     MapRenderer* mapRenderer;
 
-    IVec2 worldPos;
-    float winWorldWidth = 20.0f;
-    float winWorldHeight = winWorldWidth / ASPECT_RATIO;
-    float tileScreenSize = SCREEN_WIDTH / winWorldWidth;
-    AABB mapBounds;
-
-    AABB getVisibleMapBounds();
+    
 
 public:
     Window();
@@ -28,10 +22,6 @@ public:
 
     void draw(GameManager* g);
 
-    void drawMap(Map* map);
-    void drawEntities(std::vector<Creature*> entities);
-
-    void blit(Sprite* sprite);
     void blit(SDL_Surface* surface, SDL_Rect* rect);
     void flip();
     void clear();

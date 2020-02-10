@@ -28,6 +28,15 @@ enum SpriteEnum {
     PLAYER
 };
 
+std::map<std::string, SpriteEnum> spriteNameMap = {
+    {"hidden", HIDDEN},
+    {"wall_seen", WALL_SEEN},
+    {"wall_visible", WALL_VISIBLE},
+    {"floor_seen", FLOOR_SEEN},
+    {"floor_visible", FLOOR_VISIBLE},
+    {"player", PLAYER}
+};
+
 const static std::string RESOURCES_PATH = "./resources";
 constexpr static int N_RAYCAST = 90;
 constexpr static float RAYCAST_DIST = 50.0f;

@@ -2,8 +2,9 @@
 
 SDL_PixelFormat* Sprite::pixelFormat = NULL;
 
-Sprite::Sprite() {
-    posRect = {0, 0, TILE_SCREEN_SIZE, TILE_SCREEN_SIZE};
+Sprite::Sprite(int _tileScreenSize) {
+    tileScreenSize = _tileScreenSize;
+    posRect = {0, 0, tileScreenSize, tileScreenSize};
 }
 
 Sprite::~Sprite() {
@@ -12,8 +13,8 @@ Sprite::~Sprite() {
 }
 
 void Sprite::updatePos(const IVec2 pos) {
-    posRect.x = pos.x * TILE_SCREEN_SIZE;
-    posRect.y = pos.y * TILE_SCREEN_SIZE;
+    posRect.x = pos.x * tileScreenSize;
+    posRect.y = pos.y * tileScreenSize;
 }
 
 void Sprite::loadBMP(const std::string& path) {
@@ -56,16 +57,16 @@ SDL_Surface* Sprite::getSurface() {
 }
 
 
-inline std::string extractNameFromPath(const std::string& path) {
+inline SpriteEnum extractEnumFromPath(const std::string& path) {
     std::string name = path.substr(path.rfind('/') + 1);
-    return name.substr(0, name.size() - 4);
+    return spriteNameMap[name.substr(0, name.size() - 4)];
 }
 
 void SpriteIndex::addSprite(const std::string& path) {
-    Sprite* sprite = new Sprite();
+    Sprite* sprite = new Sprite(tileScreenSize);
     sprite->loadBMP(path);
     sprites.insert({
-        extractNameFromPath(path),
+        extractEnumFromPath(path),
         sprite});
 }
 
@@ -98,4 +99,8 @@ Sprite* SpriteIndex::get(const SpriteEnum sprite) const {
     // Raise an error if not in the map
     assert(found != sprites.end());
     return found->second;
+}
+
+int SpriteIndex::getTileScreenSize() const {
+    return tileScreenSize;
 }

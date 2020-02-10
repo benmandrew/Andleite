@@ -16,10 +16,11 @@ private:
     static SDL_PixelFormat* pixelFormat;
 
     bool changedPos;
+    int tileScreenSize;
     SDL_Rect posRect;
     SDL_Surface* surface;
 public:
-    Sprite();
+    Sprite(int tileScreenSize);
     ~Sprite();
 
     static void setPixelFormat(SDL_PixelFormat* fmt);
@@ -33,6 +34,7 @@ public:
 
 class SpriteIndex {
 private:
+    int tileScreenSize;
     std::map<SpriteEnum, Sprite*> sprites;
 
     void addSprite(const std::string& path);
@@ -40,6 +42,7 @@ private:
 public:
     bool init(const std::string& resourcesPath);
     Sprite* get(const SpriteEnum sprite) const;
+    int getTileScreenSize() const;
 };
 
 #endif
