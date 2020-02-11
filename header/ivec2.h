@@ -5,6 +5,8 @@
 #include <algorithm>
 #include "fvec2.h"
 
+class FVec2;
+
 class IVec2 {
 public:
     int x, y;

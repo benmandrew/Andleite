@@ -3,6 +3,7 @@
 #pragma once
 
 #include <string>
+#include <map>
 
 constexpr static int SCREEN_WIDTH = 1280;
 constexpr static int SCREEN_HEIGHT = 960;
@@ -28,7 +29,7 @@ enum SpriteEnum {
     PLAYER
 };
 
-std::map<std::string, SpriteEnum> spriteNameMap = {
+static std::map<std::string, SpriteEnum> spriteNameMap = {
     {"hidden", HIDDEN},
     {"wall_seen", WALL_SEEN},
     {"wall_visible", WALL_VISIBLE},

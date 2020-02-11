@@ -4,6 +4,8 @@
 
 #include "ivec2.h"
 
+class IVec2;
+
 class FVec2 {
 public:
     float x, y;

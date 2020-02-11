@@ -34,3 +34,7 @@ void GameManager::runFrame() {
     map->visibleToSeen();
     raycaster->raycastSightlines(player->getPos());
 }
+
+void GameManager::onNotify(int event) {
+
+}

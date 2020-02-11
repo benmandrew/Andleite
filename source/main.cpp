@@ -5,12 +5,12 @@
 #include "gamemanager.h"
 #include "window.h"
 
-void mainLoop(GameManager* m) {
+void mainLoop(GameManager* m, Window* w) {
     bool quit = false;
     while (!quit) {
         quit = m->pollInput();
         m->runFrame();
-        m->draw();
+        w->draw(m);
     }
 }
 
@@ -18,7 +18,7 @@ int main(int argc, char* args[]) {
     Window* w = new Window();
     GameManager* g = new GameManager();
     if (g->init() && w->init(SCREEN_WIDTH, SCREEN_HEIGHT)) {
-        mainLoop(g);
+        mainLoop(g, w);
     }
     delete w;
     delete g;

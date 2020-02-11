@@ -6,6 +6,7 @@ Window::Window() {
 
 Window::~Window() {
     delete spriteIndex;
+    delete mapRenderer;
     SDL_DestroyWindow(window);
     window = NULL;
 }
@@ -35,6 +36,7 @@ bool Window::init(int screen_width, int screen_height) {
             Sprite::setPixelFormat(getPixelFormat());
             spriteIndex = new SpriteIndex();
             spriteIndex->init(RESOURCES_PATH);
+            mapRenderer = new MapRenderer();
         }
     }
     return success;
@@ -42,10 +44,11 @@ bool Window::init(int screen_width, int screen_height) {
 
 void Window::draw(GameManager* g) {
     clear();
-    mapRenderer->drawToSurface(
+    SDL_Surface* mapSurface = mapRenderer->drawToSurface(
         g->entities,
         g->map,
         spriteIndex);
+    blit(mapSurface, &mapRect);
     flip();
 }
 

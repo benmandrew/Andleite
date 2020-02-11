@@ -8,6 +8,7 @@
 
 class Window {
 private:
+    SDL_Rect mapRect = {0, 0, SCREEN_WIDTH, SCREEN_HEIGHT};
     SDL_Window* window = NULL;
     SDL_Surface* screenSurface = NULL;
     SpriteIndex* spriteIndex;

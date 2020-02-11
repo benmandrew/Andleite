@@ -11,7 +11,7 @@ class MapRenderer {
     IVec2 worldViewCenter; // Camera's position in the world
     FVec2 screenLimits; // Limits of the camera in screenspace
     float aspectRatio;
-    float verticalZoom; // Number of visible tiles vertically
+    float halfVerticalZoom; // Number of visible tiles vertically
     FVec2 worldViewLimits; // Limits of the camera in worldspace
     float tileScreenSize; // Size of tile in screenspace
 
@@ -24,6 +24,7 @@ public:
     MapRenderer();
     ~MapRenderer();
     SDL_Surface* drawToSurface(std::vector<Creature*> entities, Map* map, SpriteIndex* spriteIndex);
+    void setCameraPos(IVec2 pos);
 };
 
 #endif

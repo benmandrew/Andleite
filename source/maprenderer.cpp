@@ -2,12 +2,14 @@
 #include "maprenderer.h"
 
 MapRenderer::MapRenderer() {
-    surface = new SDL_Surface();
     screenLimits = {SCREEN_WIDTH / 2.0f, SCREEN_HEIGHT / 2.0f};
     aspectRatio = SCREEN_WIDTH / (float) SCREEN_HEIGHT;
-    verticalZoom = 25.0f;
-    worldViewCenter = {5, 5};
-    worldViewLimits = {verticalZoom * aspectRatio, verticalZoom};
+    halfVerticalZoom = 12.5f;
+    worldViewCenter = {10, 10};
+    worldViewLimits = {halfVerticalZoom * aspectRatio, halfVerticalZoom};
+    tileScreenSize = screenLimits.y / halfVerticalZoom;
+    surface = SDL_CreateRGBSurface(
+        0, screenLimits.x * 2, screenLimits.y * 2, 32, 0, 0, 0, 0);
 }
 
 MapRenderer::~MapRenderer() {
@@ -17,12 +19,13 @@ MapRenderer::~MapRenderer() {
 AABB MapRenderer::getVisibleBounds() {
     AABB bounds = {
         {
-            floor(worldViewCenter.x - worldViewLimits.x / 2.0),
-            ceil(worldViewCenter.x + worldViewLimits.x / 2.0)},
+            floor(worldViewCenter.x - worldViewLimits.x),
+            floor(worldViewCenter.y - worldViewLimits.y)},
         {
-            floor(worldViewCenter.y - worldViewLimits.y / 2.0),
-            ceil(worldViewCenter.y + worldViewLimits.y / 2.0)}
+            ceil(worldViewCenter.x + worldViewLimits.x),
+            ceil(worldViewCenter.y + worldViewLimits.y)}
     };
+    return bounds;
 }
 
 IVec2 MapRenderer::getTileScreenRect(IVec2 tileWorldPos, SDL_Rect* rect) {
@@ -59,6 +62,7 @@ void MapRenderer::drawMap(AABB* mapBounds, SDL_Rect* tileRect, Map* map, SpriteI
             Tile* tile = map->getTile({x, y});
             if (tile == nullptr) continue;
             if (!tile->updated) continue;
+            tile->updated = false;
             Sprite* sprite = getSpriteForTile(tile, spriteIndex);
             getTileScreenRect({x, y}, tileRect);
             SDL_BlitScaled(
@@ -91,4 +95,8 @@ SDL_Surface* MapRenderer::drawToSurface(std::vector<Creature*> entities, Map* ma
         drawEntity(entity, &mapBounds, &tileRect, spriteIndex);
     }
     return surface;
+}
+
+void MapRenderer::setCameraPos(IVec2 pos) {
+    worldViewCenter = pos;
 }

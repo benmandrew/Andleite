@@ -22,7 +22,6 @@ public:
     bool init();
 
     bool pollInput();
-    void draw();
     void runFrame();
 
     void onNotify(int event);

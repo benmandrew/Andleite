@@ -86,5 +86,5 @@ void RayCaster::raycast(const IVec2 start, const IVec2 end) {
 }
 
 bool RayCaster::isWallCollision(const IVec2 pos) {
-    return map->getTile(pos).type == TileType::wall;
+    return map->getTile(pos)->type == TileType::wall;
 }
