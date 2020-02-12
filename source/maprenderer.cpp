@@ -33,6 +33,8 @@ IVec2 MapRenderer::getTileScreenRect(IVec2 tileWorldPos, SDL_Rect* rect) {
     IVec2 screenPoint = (normalisedWorldPoint * tileScreenSize).toInt();
     rect->x = screenPoint.x;
     rect->y = screenPoint.y;
+    rect->w = tileScreenSize;
+    rect->h = tileScreenSize;
 }
 
 Sprite* MapRenderer::getSpriteForTile(Tile* tile, SpriteIndex* spriteIndex) {
@@ -76,6 +78,7 @@ void MapRenderer::drawMap(AABB* mapBounds, SDL_Rect* tileRect, Map* map, SpriteI
 }
 
 void MapRenderer::drawEntity(Creature* entity, AABB* mapBounds, SDL_Rect* tileRect, SpriteIndex* spriteIndex) {
+    if (!mapBounds->contains(entity->getPos())) return;
     getTileScreenRect(entity->getPos(), tileRect);
     SDL_BlitScaled(
         spriteIndex->get(

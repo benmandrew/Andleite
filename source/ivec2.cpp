@@ -34,6 +34,12 @@ bool AABB::collidesWith(const AABB other, const bool expand) const {
         bottomRight.y + buffer > other.topLeft.y);
 }
 
+bool AABB::contains(const IVec2 pos) const {
+    return (pos.x >= topLeft.x 
+        && pos.x <= bottomRight.x
+        && pos.y >= topLeft.y
+        && pos.y <= bottomRight.y);
+}
 
 AABB AABB::getUnion(const AABB other) const {
     IVec2 newTopLeft = {

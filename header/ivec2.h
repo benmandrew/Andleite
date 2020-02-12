@@ -27,6 +27,7 @@ struct AABB {
 
     bool collidesWith(
         const AABB other, const bool expand=false) const;
+    bool contains(const IVec2 pos) const;
 
     AABB getUnion(const AABB other) const;
 };
