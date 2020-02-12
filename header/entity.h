@@ -1,5 +1,5 @@
-#ifndef __CREATURE_H_INCLUDED__
-#define __CREATURE_H_INCLUDED__
+#ifndef __ENTITY_H_INCLUDED__
+#define __ENTITY_H_INCLUDED__
 #pragma once
 
 #include <SDL2/SDL.h>
@@ -9,7 +9,7 @@
 #include "map.h"
 #include "sprite.h"
 
-class Creature : public Observer {
+class Entity : public Observer {
 private:
     IVec2 pos;
     SpriteEnum sprite;
@@ -18,7 +18,7 @@ private:
     void moveX(const int dx);
     void moveY(const int dy);
 public:
-    Creature();
+    Entity();
 
     void init(SpriteEnum _sprite, Map* _map);
 

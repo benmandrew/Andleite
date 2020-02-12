@@ -4,7 +4,7 @@
 GameManager::GameManager() {
     input = new Input();
     map = new Map();
-    player = new Creature();
+    player = new Entity();
     entities.push_back(player);
     raycaster = new RayCaster();
 }
@@ -35,6 +35,21 @@ void GameManager::runFrame() {
     raycaster->raycastSightlines(player->getPos());
 }
 
-void GameManager::onNotify(int event) {
+bool GameManager::isUpdated() {
+    return updated;
+}
 
+void GameManager::setUpdated(bool newUpdated) {
+    updated = newUpdated;
+}
+
+void GameManager::onNotify(int event) {
+    switch (event) {
+        case InputEvent::KEY_UP:
+        case InputEvent::KEY_DOWN:
+        case InputEvent::KEY_LEFT:
+        case InputEvent::KEY_RIGHT:
+            updated = true;
+            break;
+    }
 }

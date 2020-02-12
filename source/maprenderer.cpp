@@ -1,6 +1,8 @@
 
 #include "maprenderer.h"
 
+#include <iostream>
+
 MapRenderer::MapRenderer() {
     screenLimits = {SCREEN_WIDTH / 2.0f, SCREEN_HEIGHT / 2.0f};
     aspectRatio = SCREEN_WIDTH / (float) SCREEN_HEIGHT;
@@ -77,7 +79,7 @@ void MapRenderer::drawMap(AABB* mapBounds, SDL_Rect* tileRect, Map* map, SpriteI
     }
 }
 
-void MapRenderer::drawEntity(Creature* entity, AABB* mapBounds, SDL_Rect* tileRect, SpriteIndex* spriteIndex) {
+void MapRenderer::drawEntity(Entity* entity, AABB* mapBounds, SDL_Rect* tileRect, SpriteIndex* spriteIndex) {
     if (!mapBounds->contains(entity->getPos())) return;
     getTileScreenRect(entity->getPos(), tileRect);
     SDL_BlitScaled(
@@ -90,11 +92,11 @@ void MapRenderer::drawEntity(Creature* entity, AABB* mapBounds, SDL_Rect* tileRe
     );
 }
 
-SDL_Surface* MapRenderer::drawToSurface(std::vector<Creature*> entities, Map* map, SpriteIndex* spriteIndex) {
+SDL_Surface* MapRenderer::drawToSurface(std::vector<Entity*> entities, Map* map, SpriteIndex* spriteIndex) {
     AABB mapBounds = getVisibleBounds();
     SDL_Rect tileRect = {0, 0, tileScreenSize, tileScreenSize};
     drawMap(&mapBounds, &tileRect, map, spriteIndex);
-    for (Creature* entity : entities) {
+    for (Entity* entity : entities) {
         drawEntity(entity, &mapBounds, &tileRect, spriteIndex);
     }
     return surface;
@@ -102,4 +104,8 @@ SDL_Surface* MapRenderer::drawToSurface(std::vector<Creature*> entities, Map* ma
 
 void MapRenderer::setCameraPos(IVec2 pos) {
     worldViewCenter = pos;
+}
+
+void MapRenderer::setFocusedEntity(Entity* _focusedEntity) {
+    focusedEntity = _focusedEntity;
 }

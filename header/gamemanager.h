@@ -4,17 +4,19 @@
 
 #include "observer.h"
 #include "input.h"
-#include "creature.h"
+#include "entity.h"
 #include "raycaster.h"
 
 class GameManager : Observer {
+private:
+    bool updated = true;
 public:
     Input* input;
     Map* map;
-    Creature* player;
+    Entity* player;
     RayCaster* raycaster;
 
-    std::vector<Creature*> entities;
+    std::vector<Entity*> entities;
 
     GameManager();
     ~GameManager();
@@ -23,6 +25,9 @@ public:
 
     bool pollInput();
     void runFrame();
+
+    bool isUpdated();
+    void setUpdated(bool newUpdated);
 
     void onNotify(int event);
 

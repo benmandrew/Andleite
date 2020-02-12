@@ -7,10 +7,14 @@
 
 void mainLoop(GameManager* m, Window* w) {
     bool quit = false;
+    bool update = true;
     while (!quit) {
         quit = m->pollInput();
         m->runFrame();
-        w->draw(m);
+        if (m->isUpdated()) {
+            w->draw(m);
+            m->setUpdated(false);
+        }
     }
 }
 
