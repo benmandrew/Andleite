@@ -19,6 +19,7 @@ class MapRenderer {
     AABB getVisibleBounds();
     IVec2 getTileScreenRect(IVec2 tileWorldPos, SDL_Rect* rect);
     Sprite* getSpriteForTile(Tile* tile, SpriteIndex* spriteIndex);
+    void followFocusedEntity();
     void drawMap(AABB* mapBounds, SDL_Rect* tileRect, Map* map, SpriteIndex* spriteIndex);
     void drawEntity(Entity* entity, AABB* mapBounds, SDL_Rect* tileRect, SpriteIndex* spriteIndex);
 public:

@@ -60,6 +60,11 @@ Sprite* MapRenderer::getSpriteForTile(Tile* tile, SpriteIndex* spriteIndex) {
     return sprite;
 }
 
+void MapRenderer::followFocusedEntity() {
+    if (focusedEntity == nullptr) return;
+    worldViewCenter = focusedEntity->getPos();
+}
+
 void MapRenderer::drawMap(AABB* mapBounds, SDL_Rect* tileRect, Map* map, SpriteIndex* spriteIndex) {
     for (int x = (*mapBounds).topLeft.x; x <= (*mapBounds).bottomRight.x; x++) {
         for (int y = (*mapBounds).topLeft.y; y <= (*mapBounds).bottomRight.y; y++) {
@@ -93,6 +98,7 @@ void MapRenderer::drawEntity(Entity* entity, AABB* mapBounds, SDL_Rect* tileRect
 }
 
 SDL_Surface* MapRenderer::drawToSurface(std::vector<Entity*> entities, Map* map, SpriteIndex* spriteIndex) {
+    followFocusedEntity();
     AABB mapBounds = getVisibleBounds();
     SDL_Rect tileRect = {0, 0, tileScreenSize, tileScreenSize};
     drawMap(&mapBounds, &tileRect, map, spriteIndex);
@@ -101,6 +107,8 @@ SDL_Surface* MapRenderer::drawToSurface(std::vector<Entity*> entities, Map* map,
     }
     return surface;
 }
+
+
 
 void MapRenderer::setCameraPos(IVec2 pos) {
     worldViewCenter = pos;
