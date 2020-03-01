@@ -1,0 +1,67 @@
+[
+{
+  "directory": "/home/ben/Desktop/Ändleite/build",
+  "command": "/usr/bin/g++-7   -I/home/ben/Desktop/Ändleite/header -I/usr/include/SDL2   -Wno-narrowing -g   -o CMakeFiles/andleite.dir/source/main.cpp.o -c /home/ben/Desktop/Ändleite/source/main.cpp",
+  "file": "/home/ben/Desktop/Ändleite/source/main.cpp"
+},
+{
+  "directory": "/home/ben/Desktop/Ändleite/build",
+  "command": "/usr/bin/g++-7   -I/home/ben/Desktop/Ändleite/header -I/usr/include/SDL2   -Wno-narrowing -g   -o CMakeFiles/andleite.dir/source/entity.cpp.o -c /home/ben/Desktop/Ändleite/source/entity.cpp",
+  "file": "/home/ben/Desktop/Ändleite/source/entity.cpp"
+},
+{
+  "directory": "/home/ben/Desktop/Ändleite/build",
+  "command": "/usr/bin/g++-7   -I/home/ben/Desktop/Ändleite/header -I/usr/include/SDL2   -Wno-narrowing -g   -o CMakeFiles/andleite.dir/source/fvec2.cpp.o -c /home/ben/Desktop/Ändleite/source/fvec2.cpp",
+  "file": "/home/ben/Desktop/Ändleite/source/fvec2.cpp"
+},
+{
+  "directory": "/home/ben/Desktop/Ändleite/build",
+  "command": "/usr/bin/g++-7   -I/home/ben/Desktop/Ändleite/header -I/usr/include/SDL2   -Wno-narrowing -g   -o CMakeFiles/andleite.dir/source/gamemanager.cpp.o -c /home/ben/Desktop/Ändleite/source/gamemanager.cpp",
+  "file": "/home/ben/Desktop/Ändleite/source/gamemanager.cpp"
+},
+{
+  "directory": "/home/ben/Desktop/Ändleite/build",
+  "command": "/usr/bin/g++-7   -I/home/ben/Desktop/Ändleite/header -I/usr/include/SDL2   -Wno-narrowing -g   -o CMakeFiles/andleite.dir/source/input.cpp.o -c /home/ben/Desktop/Ändleite/source/input.cpp",
+  "file": "/home/ben/Desktop/Ändleite/source/input.cpp"
+},
+{
+  "directory": "/home/ben/Desktop/Ändleite/build",
+  "command": "/usr/bin/g++-7   -I/home/ben/Desktop/Ändleite/header -I/usr/include/SDL2   -Wno-narrowing -g   -o CMakeFiles/andleite.dir/source/ivec2.cpp.o -c /home/ben/Desktop/Ändleite/source/ivec2.cpp",
+  "file": "/home/ben/Desktop/Ändleite/source/ivec2.cpp"
+},
+{
+  "directory": "/home/ben/Desktop/Ändleite/build",
+  "command": "/usr/bin/g++-7   -I/home/ben/Desktop/Ändleite/header -I/usr/include/SDL2   -Wno-narrowing -g   -o CMakeFiles/andleite.dir/source/map.cpp.o -c /home/ben/Desktop/Ändleite/source/map.cpp",
+  "file": "/home/ben/Desktop/Ändleite/source/map.cpp"
+},
+{
+  "directory": "/home/ben/Desktop/Ändleite/build",
+  "command": "/usr/bin/g++-7   -I/home/ben/Desktop/Ändleite/header -I/usr/include/SDL2   -Wno-narrowing -g   -o CMakeFiles/andleite.dir/source/maprenderer.cpp.o -c /home/ben/Desktop/Ändleite/source/maprenderer.cpp",
+  "file": "/home/ben/Desktop/Ändleite/source/maprenderer.cpp"
+},
+{
+  "directory": "/home/ben/Desktop/Ändleite/build",
+  "command": "/usr/bin/g++-7   -I/home/ben/Desktop/Ändleite/header -I/usr/include/SDL2   -Wno-narrowing -g   -o CMakeFiles/andleite.dir/source/observer.cpp.o -c /home/ben/Desktop/Ändleite/source/observer.cpp",
+  "file": "/home/ben/Desktop/Ändleite/source/observer.cpp"
+},
+{
+  "directory": "/home/ben/Desktop/Ändleite/build",
+  "command": "/usr/bin/g++-7   -I/home/ben/Desktop/Ändleite/header -I/usr/include/SDL2   -Wno-narrowing -g   -o CMakeFiles/andleite.dir/source/raycaster.cpp.o -c /home/ben/Desktop/Ändleite/source/raycaster.cpp",
+  "file": "/home/ben/Desktop/Ändleite/source/raycaster.cpp"
+},
+{
+  "directory": "/home/ben/Desktop/Ändleite/build",
+  "command": "/usr/bin/g++-7   -I/home/ben/Desktop/Ändleite/header -I/usr/include/SDL2   -Wno-narrowing -g   -o CMakeFiles/andleite.dir/source/region.cpp.o -c /home/ben/Desktop/Ändleite/source/region.cpp",
+  "file": "/home/ben/Desktop/Ändleite/source/region.cpp"
+},
+{
+  "directory": "/home/ben/Desktop/Ändleite/build",
+  "command": "/usr/bin/g++-7   -I/home/ben/Desktop/Ändleite/header -I/usr/include/SDL2   -Wno-narrowing -g   -o CMakeFiles/andleite.dir/source/sprite.cpp.o -c /home/ben/Desktop/Ändleite/source/sprite.cpp",
+  "file": "/home/ben/Desktop/Ändleite/source/sprite.cpp"
+},
+{
+  "directory": "/home/ben/Desktop/Ändleite/build",
+  "command": "/usr/bin/g++-7   -I/home/ben/Desktop/Ändleite/header -I/usr/include/SDL2   -Wno-narrowing -g   -o CMakeFiles/andleite.dir/source/window.cpp.o -c /home/ben/Desktop/Ändleite/source/window.cpp",
+  "file": "/home/ben/Desktop/Ändleite/source/window.cpp"
+}
+]
