@@ -9,7 +9,7 @@
 #include "map.h"
 #include "sprite.h"
 
-class Entity : public Observer {
+class Entity : public Observer, public Subject {
 private:
     IVec2 pos;
     SpriteEnum sprite;

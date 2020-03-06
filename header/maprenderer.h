@@ -6,7 +6,7 @@
 #include "fvec2.h"
 #include "entity.h"
 
-class MapRenderer {
+class MapRenderer : public Observer {
     SDL_Surface* surface;
     IVec2 worldViewCenter; // Camera's position in the world
     FVec2 screenLimits; // Limits of the camera in screenspace
@@ -28,6 +28,8 @@ public:
     SDL_Surface* drawToSurface(std::vector<Entity*> entities, Map* map, SpriteIndex* spriteIndex);
     void setCameraPos(IVec2 pos);
     void setFocusedEntity(Entity* _focusedEntity);
+    void onNotify(int event);
+}
 };
 
 #endif

@@ -37,7 +37,7 @@ static std::map<std::string, SpriteEnum> spriteNameMap = {
 };
 
 const static std::string RESOURCES_PATH = "./resources";
-constexpr static int N_RAYCAST = 90;
+constexpr static int N_RAYCAST = 270;
 constexpr static float RAYCAST_DIST = 50.0f;
 
 #endif

@@ -117,3 +117,20 @@ void MapRenderer::setCameraPos(IVec2 pos) {
 void MapRenderer::setFocusedEntity(Entity* _focusedEntity) {
     focusedEntity = _focusedEntity;
 }
+
+void MapRenderer::onNotify(int event) {
+    switch (event) {
+        case KEY_UP:
+            moveY(-1);
+            break;
+        case KEY_DOWN:
+            moveY(1);
+            break;
+        case KEY_LEFT:
+            moveX(-1);
+            break;
+        case KEY_RIGHT:
+            moveX(1);
+            break;
+    }
+}
