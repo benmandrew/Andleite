@@ -29,7 +29,6 @@ public:
     void setCameraPos(IVec2 pos);
     void setFocusedEntity(Entity* _focusedEntity);
     void onNotify(int event);
-}
 };
 
 #endif

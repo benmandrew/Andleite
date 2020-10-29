@@ -4,14 +4,14 @@
 
 
 # Configuration directories and files
-SourceDirectory: /home/ben/Desktop/Ändleite
-BuildDirectory: /home/ben/Desktop/Ändleite/build
+SourceDirectory: /home/ben/Desktop/Andleite
+BuildDirectory: /home/ben/Desktop/Andleite/build
 
 # Where to place the cost data store
 CostDataFile: 
 
 # Site is something like machine.domain, i.e. pragmatic.crd
-Site: ben-UX305FA
+Site: ben87
 
 # Build name is osname-revision-compiler, i.e. Linux-2.4.2-2smp-c++
 BuildName: Linux-g++-7
@@ -36,7 +36,7 @@ ScpCommand: /usr/bin/scp
 NightlyStartTime: 00:00:00 EDT
 
 # Commands for the build/test/submit cycle
-ConfigureCommand: "/usr/bin/cmake" "/home/ben/Desktop/Ändleite"
+ConfigureCommand: "/usr/bin/cmake" "/home/ben/Desktop/Andleite"
 MakeCommand: /usr/bin/cmake --build . --config "${CTEST_CONFIGURATION_TYPE}" -- -i
 DefaultCTestConfigurationType: Release
 
